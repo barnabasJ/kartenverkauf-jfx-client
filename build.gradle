@@ -1,13 +1,16 @@
 plugins {
 	id 'org.springframework.boot' version '2.1.9.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
-	id 'java'
   id 'org.openjfx.javafxplugin' version '0.0.8'
+	id 'java'
+  id 'application'
 }
 
-group = 'at.fhv.team-a.kartenverkauf.client.jfx'
+mainClassName = 'at.fhv.teama.kartenverkauf.client.jfx.KartenverkaufServerApplication'
+
+group = 'at.fhv.teama.kartenverkauf.client.jfx'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '1.11'
 
 configurations {
 	developmentOnly
@@ -21,6 +24,7 @@ configurations {
 
 repositories {
 	mavenCentral()
+  maven { url 'https://www.jitpack.io' }
 }
 
 sourceSets {
@@ -35,6 +39,7 @@ sourceSets {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
   implementation 'com.airhacks:afterburner.fx:1.7.0'
+  implementation 'com.github.barnabasJ:kartenverkauf-shared:master-SNAPSHOT'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
