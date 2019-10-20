@@ -6,7 +6,7 @@ plugins {
   id 'application'
 }
 
-mainClassName = 'at.fhv.teama.kartenverkauf.client.jfx.KartenverkaufServerApplication'
+mainClassName = 'at.fhv.teama.kartenverkauf.client.jfx.KartenverkaufClientApplication'
 
 group = 'at.fhv.teama.kartenverkauf.client.jfx'
 version = '0.0.1-SNAPSHOT'

@@ -12,13 +12,13 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
-public class KartenverkaufServerApplication extends Application {
+public class KartenverkaufClientApplication extends Application {
 
   private ConfigurableApplicationContext context;
 
   @Override
   public void init() throws Exception {
-    SpringApplicationBuilder builder = new SpringApplicationBuilder(KartenverkaufServerApplication.class);
+    SpringApplicationBuilder builder = new SpringApplicationBuilder(KartenverkaufClientApplication.class);
     context = builder.run();
     Injector.setInstanceSupplier(context::getBean);
   }
