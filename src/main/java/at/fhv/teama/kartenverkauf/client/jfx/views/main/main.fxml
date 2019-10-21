@@ -1,105 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="at.fhv.teama.kartenverkauf.client.jfx.views.main.MainController" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <SplitPane dividerPositions="0.21248952221290862" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="1000.0" prefWidth="1000.0">
-         <VBox.margin>
-            <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-         </VBox.margin>
-         <items>
-            <Pane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minWidth="193.0" prefHeight="595.0" prefWidth="193.0" style="-fx-background-color: #48A5EA;" />
-            <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
-              <items>
-                  <GridPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="60.0" prefWidth="597.0">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints maxHeight="-Infinity" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                     <children>
-                        <MenuButton maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: #48A5EA;" text="Charter" textFill="#171717">
-                           <items>
-                              <MenuItem mnemonicParsing="false" text="Action 1" />
-                              <MenuItem mnemonicParsing="false" text="Action 2" />
-                           </items>
-                           <GridPane.margin>
-                              <Insets left="3.0" right="3.0" top="5.0" />
-                           </GridPane.margin>
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </MenuButton>
-                        <MenuButton maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: #48A5EA;" text="Lines" GridPane.columnIndex="1">
-                           <items>
-                              <MenuItem mnemonicParsing="false" text="Action 1" />
-                              <MenuItem mnemonicParsing="false" text="Action 2" />
-                           </items>
-                           <GridPane.margin>
-                              <Insets left="3.0" right="3.0" top="5.0" />
-                           </GridPane.margin>
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </MenuButton>
-                        <MenuButton maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: #48A5EA;" text="Buses" GridPane.columnIndex="2">
-                           <items>
-                              <MenuItem mnemonicParsing="false" text="Action 1" />
-                              <MenuItem mnemonicParsing="false" text="Action 2" />
-                           </items>
-                           <GridPane.margin>
-                              <Insets left="3.0" right="3.0" top="5.0" />
-                           </GridPane.margin>
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </MenuButton>
-                        <MenuButton maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: #48A5EA;" text="Drivers" GridPane.columnIndex="3">
-                           <items>
-                              <MenuItem mnemonicParsing="false" text="Action 1" />
-                              <MenuItem mnemonicParsing="false" text="Action 2" />
-                           </items>
-                           <GridPane.margin>
-                              <Insets left="3.0" right="3.0" top="5.0" />
-                           </GridPane.margin>
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </MenuButton>
-                        <MenuButton maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: #48A5EA;" text="Customers" GridPane.columnIndex="4">
-                           <items>
-                              <MenuItem mnemonicParsing="false" text="Action 1" />
-                              <MenuItem mnemonicParsing="false" text="Action 2" />
-                           </items>
-                           <GridPane.margin>
-                              <Insets left="3.0" right="3.0" top="5.0" />
-                           </GridPane.margin>
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </MenuButton>
-                     </children>
-                  </GridPane>
-                  <Pane prefHeight="538.0" prefWidth="597.0" />
-              </items>
-            </SplitPane>
-         </items>
-      </SplitPane>
-   </children>
+<VBox prefHeight="425.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+            <Menu mnemonicParsing="false" text="EasyTicket" />
+      </menus>
+    </MenuBar>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="438.0" prefWidth="640.0" VBox.vgrow="ALWAYS">
+      <children>
+            <TabPane prefHeight="393.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="-22.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <tabs>
+                  <Tab text="Übersicht" />
+                  <Tab text="Ticketverkauf" />
+                  <Tab text="Kunden" />
+                  <Tab text="Veranstaltungen" />
+                  <Tab text="Neuigkeiten" />
+               </tabs>
+            </TabPane>
+      </children>
+    </AnchorPane>
+  </children>
 </VBox>
