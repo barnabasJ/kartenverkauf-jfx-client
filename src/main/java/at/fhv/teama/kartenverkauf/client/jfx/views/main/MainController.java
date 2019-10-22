@@ -15,7 +15,6 @@ public class MainController {
 
     public MainController(EasyTicketService easyTicketService) throws RemoteException {
         this.easyTicketService = easyTicketService;
-        easyTicketService.saveAddress(new AddressDto());
     }
 }
 
