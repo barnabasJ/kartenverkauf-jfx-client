@@ -7,9 +7,12 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 import org.springframework.remoting.support.RemoteInvocationFactory;
 import org.springframework.security.remoting.rmi.ContextPropagatingRemoteInvocationFactory;
 
+import java.net.URISyntaxException;
+
 
 @Configuration
 public class RmiConfig {
+
    @Bean
    RemoteInvocationFactory factory() {
        return new ContextPropagatingRemoteInvocationFactory();
