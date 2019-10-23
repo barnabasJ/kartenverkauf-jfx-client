@@ -36,10 +36,6 @@ sourceSets {
     }
 }
 
-run {
-    systemProperties['java.security.policy'] = './client.policy'
-}
-
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'com.airhacks:afterburner.fx:1.7.0'
