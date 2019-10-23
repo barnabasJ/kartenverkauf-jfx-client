@@ -6,9 +6,9 @@ plugins {
     id 'application'
 }
 
-mainClassName = 'at.fhv.teama.kartenverkauf.client.jfx.KartenverkaufClientApplication'
+mainClassName = 'at.fhv.teama.easyticket.client.jfx.EasyTicketJfxClientApplication'
 
-group = 'at.fhv.teama.kartenverkauf.client.jfx'
+group = 'at.fhv.teama.easyticket.client.jfx'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.11'
 
