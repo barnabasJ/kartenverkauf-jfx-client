@@ -1,6 +1,6 @@
-package at.fhv.teama.kartenverkauf.client.jfx;
+package at.fhv.teama.easyticket.client.jfx;
 
-import at.fhv.teama.kartenverkauf.client.jfx.views.main.MainView;
+import at.fhv.teama.easyticket.client.jfx.views.main.MainView;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.airhacks.afterburner.injection.Injector;
 import javafx.application.Application;
@@ -10,9 +10,6 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 @SpringBootApplication
 public class KartenverkaufClientApplication extends Application {

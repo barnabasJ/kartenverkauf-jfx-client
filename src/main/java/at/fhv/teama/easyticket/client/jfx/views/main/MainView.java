@@ -1,4 +1,4 @@
-package at.fhv.teama.kartenverkauf.client.jfx.views.main;
+package at.fhv.teama.easyticket.client.jfx.views.main;
 
 import com.airhacks.afterburner.views.FXMLView;
 
