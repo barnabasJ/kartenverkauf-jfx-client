@@ -1,4 +1,4 @@
-package at.fhv.teama.kartenverkauf.client.jfx.rmi;
+package at.fhv.teama.easyticket.client.jfx.rmi;
 
 import at.fhv.teama.kartenverkauf.dto.ProgramDto;
 import at.fhv.teama.kartenverkauf.rmi.EasyTicketService;
