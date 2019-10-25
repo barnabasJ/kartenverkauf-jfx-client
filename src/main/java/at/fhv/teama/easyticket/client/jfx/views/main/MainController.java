@@ -1,7 +1,7 @@
 package at.fhv.teama.easyticket.client.jfx.views.main;
 
-import at.fhv.teama.kartenverkauf.dto.AddressDto;
-import at.fhv.teama.kartenverkauf.rmi.EasyTicketService;
+import at.fhv.teama.easyticket.rmi.EasyTicketService;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -10,12 +10,9 @@ import java.rmi.RemoteException;
 
 @Component
 @Scope("prototype")
+@AllArgsConstructor
 public class MainController {
-    private EasyTicketService easyTicketService;
-
-    public MainController(EasyTicketService easyTicketService) throws RemoteException {
-        this.easyTicketService = easyTicketService;
-    }
+    private final EasyTicketService easyTicketService;
 }
 
 
