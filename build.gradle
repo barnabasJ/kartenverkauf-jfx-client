@@ -1,51 +1,54 @@
 plugins {
-	id 'org.springframework.boot' version '2.1.9.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
-  id 'org.openjfx.javafxplugin' version '0.0.8'
-	id 'java'
-  id 'application'
+    id 'org.springframework.boot' version '2.1.9.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+    id 'java'
+    id 'application'
 }
 
-mainClassName = 'at.fhv.teama.kartenverkauf.client.jfx.KartenverkaufClientApplication'
+mainClassName = 'at.fhv.teama.easyticket.client.jfx.EasyTicketJfxClientApplication'
 
-group = 'at.fhv.teama.kartenverkauf.client.jfx'
+group = 'at.fhv.teama.easyticket.client.jfx'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.11'
 
 configurations {
-	developmentOnly
-	runtimeClasspath {
-		extendsFrom developmentOnly
-	}
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
-  maven { url 'https://www.jitpack.io' }
+    mavenCentral()
+    maven { url 'https://www.jitpack.io' }
 }
 
 sourceSets {
-	main {
-		resources {
-			srcDirs = ["src/main/java", "src/main/resources"]
-			excludes = ["**/*.java"]
-		}
-	}
+    main {
+        resources {
+            srcDirs = ["src/main/java", "src/main/resources"]
+            excludes = ["**/*.java"]
+        }
+    }
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
-  implementation 'com.airhacks:afterburner.fx:1.7.0'
-  implementation 'com.github.barnabasJ:kartenverkauf-shared:master-SNAPSHOT'
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'com.airhacks:afterburner.fx:1.7.0'
+    implementation 'com.github.barnabasJ:kartenverkauf-shared:0.1.0'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation "org.springframework.security:spring-security-remoting"
+    compileOnly 'org.projectlombok:lombok'
+    compile "org.springframework.boot:spring-boot-starter-security"
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 javafx {
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
+    modules = ['javafx.controls', 'javafx.fxml']
 }
