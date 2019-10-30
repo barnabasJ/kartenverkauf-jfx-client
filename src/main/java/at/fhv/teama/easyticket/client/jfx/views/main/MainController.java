@@ -1,6 +1,5 @@
 package at.fhv.teama.easyticket.client.jfx.views.main;
 
-import at.fhv.teama.easyticket.client.jfx.views.veranstaltung.VeranstaltungView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
@@ -47,13 +46,6 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-
-
-
-
-
-
 
 
     }

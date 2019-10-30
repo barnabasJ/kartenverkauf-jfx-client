@@ -10,21 +10,24 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import lombok.AllArgsConstructor;
+import javafx.scene.layout.AnchorPane;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 
 @Component
 @Scope("prototype")
 @RequiredArgsConstructor
+@Slf4j
 public class VeranstaltungController implements Initializable {
 
     private final EasyTicketService easyTicketService;
@@ -99,6 +102,7 @@ public class VeranstaltungController implements Initializable {
     private Date _filterDatum;
     private String _filterGenre;
     private String _format = "dd/MM/yyyy HH:mm:ss";
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern(_format);
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -107,7 +111,10 @@ public class VeranstaltungController implements Initializable {
 
         initializeVeranstaltungTable();
         _veranstaltungenGesamt = FXCollections.observableArrayList();
-       // _veranstaltungenGesamt.setAll(easyTicketService.getAllVenues());
+        Set<VenueDto> allVenues = easyTicketService.getAllVenues();
+        log.info("Venues ================");
+        System.out.println(allVenues);
+        _veranstaltungenGesamt.setAll(allVenues);
         Veranstaltungen_Table.setItems(_veranstaltungenGesamt);
         Veranstaltungen_Table.getSelectionModel().selectedItemProperty().addListener(this::onVenueChanged);
 
@@ -116,57 +123,71 @@ public class VeranstaltungController implements Initializable {
     private void onVenueChanged(ObservableValue<? extends VenueDto> obs, VenueDto oldSelection, VenueDto newSelection) {
 
         if (newSelection != null) {
-            if (newSelection.getProgramDto().getDescription() != null){
-                Veranstaltungen_Bezeichnung_Label.setText(newSelection.getProgramDto().getDescription());}
-            else {Veranstaltungen_Bezeichnung_Label.setText("-");}
+            if (newSelection.getProgram().getDescription() != null) {
+                Veranstaltungen_Bezeichnung_Label.setText(newSelection.getProgram().getDescription());
+            } else {
+                Veranstaltungen_Bezeichnung_Label.setText("-");
+            }
 
-            if (String.format(_format, newSelection.getDate()) != null){
-                Veranstaltungen_Datum_Label.setText(String.format(_format, newSelection.getDate()));}
-            else {Veranstaltungen_Datum_Label.setText("-");}
+            if (String.format(_format, newSelection.getDate()) != null) {
+                Veranstaltungen_Datum_Label.setText(String.format(_format, newSelection.getDate()));
+            } else {
+                Veranstaltungen_Datum_Label.setText("-");
+            }
 
-            if (newSelection.getProgramDto().getGenre() != null){
-                Veranstaltungen_Genre_Label.setText(newSelection.getProgramDto().getGenre());}
-            else {Veranstaltungen_Genre_Label.setText("-");}
+            if (newSelection.getProgram().getGenre() != null) {
+                Veranstaltungen_Genre_Label.setText(newSelection.getProgram().getGenre());
+            } else {
+                Veranstaltungen_Genre_Label.setText("-");
+            }
 
-            if (newSelection.getProgramDto().getArtistDtos().iterator().next().getName() != null){
-                Veranstaltungen_Kuenstler_Label.setText(newSelection.getProgramDto().getArtistDtos().iterator().next().getName());}
-            else {Veranstaltungen_Kuenstler_Label.setText("-");}
+            if (newSelection.getProgram().getArtists().iterator().next().getName() != null) {
+                Veranstaltungen_Kuenstler_Label.setText(newSelection.getProgram().getArtists().iterator().next().getName());
+            } else {
+                Veranstaltungen_Kuenstler_Label.setText("-");
+            }
 
-            if (newSelection.getAddressDto().getLine1() != null && newSelection.getAddressDto().getLocality() != null && newSelection.getAddressDto().getRegion() != null){
-                Veranstaltungen_Ort_Label.setText(newSelection.getAddressDto().getLocality()+", "+newSelection.getAddressDto().getLine1()+", "+newSelection.getAddressDto().getRegion());}
-            else {Veranstaltungen_Ort_Label.setText("-");}
+            if (newSelection.getAddress().getLine1() != null && newSelection.getAddress().getLocality() != null && newSelection.getAddress().getRegion() != null) {
+                Veranstaltungen_Ort_Label.setText(newSelection.getAddress().getLocality() + ", " + newSelection.getAddress().getLine1() + ", " + newSelection.getAddress().getRegion());
+            } else {
+                Veranstaltungen_Ort_Label.setText("-");
+            }
 
-            if (newSelection.getTicketDtos().isEmpty() == false){
-                Veranstaltungen_Verfügbar_Label.setText("Tickets verfügbar");}
-            else {Veranstaltungen_Verfügbar_Label.setText("AUSVERKAUFT");}
+            if (newSelection.getTickets().isEmpty() == false) {
+                Veranstaltungen_Verfügbar_Label.setText("Tickets verfügbar");
+            } else {
+                Veranstaltungen_Verfügbar_Label.setText("AUSVERKAUFT");
+            }
 
-            if (newSelection.getProgramDto().getOrganizer().getEmail() != null){
-                Veranstaltungen_EMail_Label.setText(newSelection.getProgramDto().getOrganizer().getEmail());}
-            else {Veranstaltungen_Kuenstler_Label.setText("-");}
+            if (newSelection.getProgram().getOrganizer().getEmail() != null) {
+                Veranstaltungen_EMail_Label.setText(newSelection.getProgram().getOrganizer().getEmail());
+            } else {
+                Veranstaltungen_Kuenstler_Label.setText("-");
+            }
 
         }
 
     }
 
-    private void initializeVeranstaltungTable(){
+    private void initializeVeranstaltungTable() {
 
         Veranstaltungen_Bezeichnung_Col.setCellValueFactory(p -> {
-            if (p.getValue() != null && p.getValue().getProgramDto().getDescription() != null) {
-                return new SimpleStringProperty(p.getValue().getProgramDto().getDescription());
+            if (p.getValue() != null && p.getValue().getProgram().getDescription() != null) {
+                return new SimpleStringProperty(p.getValue().getProgram().getDescription());
             }
             return new SimpleStringProperty("-");
         });
 
         Veranstaltungen_Datum_Col.setCellValueFactory(p -> {
             if (p.getValue() != null && p.getValue().getDate() != null) {
-                return new SimpleStringProperty(String.format(_format,p.getValue().getDate()));
+                return new SimpleStringProperty(p.getValue().getDate().format(formatter));
             }
             return new SimpleStringProperty("-");
         });
 
         Veranstaltungen_Kuenstler_Col.setCellValueFactory(p -> {
-            ArrayList<ArtistDto> artist = new ArrayList<>(p.getValue().getProgramDto().getArtistDtos());
-            if (p.getValue() != null && artist.get(0) != null) {
+            ArrayList<ArtistDto> artist = new ArrayList<>(p.getValue().getProgram().getArtists());
+            if (p.getValue() != null && artist != null && artist.get(0) != null) {
                 return new SimpleStringProperty(artist.get(0).getName());
             }
             return new SimpleStringProperty("-");
@@ -175,7 +196,7 @@ public class VeranstaltungController implements Initializable {
 
     }
 
-    private void setLabelsDisabled (){
+    private void setLabelsDisabled() {
         Veranstaltungen_Verfügbar_Label.setFocusTraversable(false);
         Veranstaltungen_Verfügbar_Label.setMouseTransparent(true);
 
@@ -199,10 +220,6 @@ public class VeranstaltungController implements Initializable {
 
 
     }
-
-
-
-
 
 
 }
