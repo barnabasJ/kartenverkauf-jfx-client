@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
@@ -11,14 +11,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="359.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="431.0" prefWidth="609.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Text layoutX="14.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sitzplatzwahl">
+      <Text layoutX="14.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sitzplatzwahl" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="100.59765625">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <ComboBox layoutX="14.0" layoutY="51.0" prefHeight="27.0" prefWidth="296.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="51.0" />
       <ChoiceBox layoutX="333.0" layoutY="51.0" prefHeight="27.0" prefWidth="293.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="51.0" />
       <Text layoutX="14.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Veranstaltung" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="17.73046875">
          <font>
@@ -30,25 +29,29 @@
             <Font size="22.0" />
          </font>
       </Text>
-      <ToggleButton layoutX="14.0" layoutY="284.0" mnemonicParsing="false" text="X/X" textFill="#6cab60">
-         <font>
-            <Font size="11.0" />
-         </font>
-      </ToggleButton>
-      <ToggleButton layoutX="14.0" layoutY="309.0" mnemonicParsing="false" text="X/X" textFill="#4a70b2">
-         <font>
-            <Font size="11.0" />
-         </font>
-      </ToggleButton>
-      <ToggleButton layoutX="14.0" layoutY="333.0" mnemonicParsing="false" text="X/X" textFill="RED">
-         <font>
-            <Font size="11.0" />
-         </font>
-      </ToggleButton>
-      <Text layoutX="51.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kategorie A: 25€/Ticket" />
-      <Text layoutX="51.0" layoutY="325.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kategorie B: 20€/Ticket" wrappingWidth="140.802734375" />
-      <Text layoutX="51.0" layoutY="349.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kategorie C: 15€/Ticket" />
-      <ScrollPane layoutX="14.0" layoutY="126.0" prefHeight="144.0" prefWidth="295.0" AnchorPane.bottomAnchor="89.0" AnchorPane.leftAnchor="14.0">
+      <AnchorPane layoutX="14.0" layoutY="351.0" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="14.0">
+         <children>
+            <ToggleButton mnemonicParsing="false" text="X/X" textFill="#6cab60">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton layoutY="25.0" mnemonicParsing="false" text="X/X" textFill="#4a70b2">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton layoutY="49.0" mnemonicParsing="false" text="X/X" textFill="RED">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </ToggleButton>
+            <Text layoutX="37.0" layoutY="14.431640625" strokeType="OUTSIDE" strokeWidth="0.0" text="Kategorie A: 25€/Ticket" />
+            <Text layoutX="37.0" layoutY="40.431640625" strokeType="OUTSIDE" strokeWidth="0.0" text="Kategorie B: 20€/Ticket" wrappingWidth="140.802734375" />
+            <Text layoutX="37.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kategorie C: 15€/Ticket" />
+         </children>
+      </AnchorPane>
+      <ScrollPane layoutX="14.0" layoutY="126.0" prefHeight="205.0" prefWidth="259.0" AnchorPane.bottomAnchor="89.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="125.0">
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="143.0" prefWidth="257.0">
                <children>
@@ -231,18 +234,23 @@
             <Font size="18.0" />
          </font>
       </Text>
-      <ListView layoutX="333.0" layoutY="126.0" prefHeight="146.0" prefWidth="292.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="126.0" />
-      <Text layoutX="334.0" layoutY="299.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gesamtsumme" AnchorPane.bottomAnchor="55.0" AnchorPane.rightAnchor="190.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
-      <Label layoutX="566.0" layoutY="284.0" prefHeight="23.0" prefWidth="59.0" text="0,00 €" textAlignment="CENTER">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
+      <ListView layoutX="333.0" layoutY="126.0" prefHeight="146.0" prefWidth="292.0" AnchorPane.bottomAnchor="89.0" AnchorPane.leftAnchor="287.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="126.0" />
+      <Group layoutX="375.0" layoutY="284.0" AnchorPane.bottomAnchor="54.0" AnchorPane.rightAnchor="16.0">
+         <children>
+            <Text layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gesamtsumme">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Label layoutX="225.0" prefHeight="23.0" prefWidth="65.0" text="0,00 €" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </Group>
       <Button layoutX="509.0" layoutY="323.0" mnemonicParsing="false" text="Tickets verkaufen" AnchorPane.bottomAnchor="9.0" AnchorPane.rightAnchor="16.0" />
       <Button layoutX="337.0" layoutY="323.0" mnemonicParsing="false" text="Tickets reservieren" AnchorPane.bottomAnchor="9.0" AnchorPane.rightAnchor="182.0" />
+      <Text layoutX="16.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gewaehlte Veransaltung" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="52.0" />
    </children>
 </AnchorPane>

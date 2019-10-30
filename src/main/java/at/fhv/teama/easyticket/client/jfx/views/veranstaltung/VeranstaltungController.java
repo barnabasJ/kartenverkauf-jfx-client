@@ -7,6 +7,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -17,6 +19,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
@@ -86,43 +91,126 @@ public class VeranstaltungController implements Initializable {
     private ChoiceBox<String> Veranstaltungen_Genre_Searchbar;
 
     @FXML
-    private DatePicker Veranstaltungen_Datum_Searchbar;
+    private DatePicker Veranstaltungen_Datum_From;
 
     @FXML
     private TextField Veranstaltungen_Kuenstler_Searchbar;
 
     @FXML
+    private DatePicker Veranstaltungen_Datum_To1;
+
+    @FXML
     private Button Veranstaltung_Erstellen_Button;
+
+    @FXML
+    private Button Veranstaltung_Datum_From_Button;
+
+    @FXML
+    private Button Veranstaltung_Genre_Button;
+
+    @FXML
+    private Button Veranstaltung_Datum_To_Button;
+
+    @FXML
+    private Button Veranstaltung_Kue_Button;
+
+    @FXML
+    private Button Veranstaltung_Bez_Button;
+
     //endregion
 
     private ObservableList<VenueDto> _veranstaltungenGesamt;
+    private Set<VenueDto> _allVenues;
+
+
+    private ObservableList<String> _GenresGesamt;
+    private Set<String> _allGenres;
 
     private String _filterBezeichnung;
     private String _filterKuenstler;
-    private Date _filterDatum;
+    private LocalDate _filterDatumFrom;
+    private LocalDate _filterDatumTo;
     private String _filterGenre;
-    private String _format = "dd/MM/yyyy HH:mm:ss";
+    private String _format = "dd.MM.yyyy HH:mm:ss";
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern(_format);
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         setLabelsDisabled();
-
+        Veranstaltung_Verkaufen_Button.setDisable(true);
         initializeVeranstaltungTable();
         _veranstaltungenGesamt = FXCollections.observableArrayList();
-        Set<VenueDto> allVenues = easyTicketService.getAllVenues();
+        _allVenues = easyTicketService.getAllVenues();
+
         log.info("Venues ================");
-        System.out.println(allVenues);
-        _veranstaltungenGesamt.setAll(allVenues);
-        Veranstaltungen_Table.setItems(_veranstaltungenGesamt);
+        System.out.println(_allVenues);
+
+        populateVenueTable(_allVenues);
+        //populateGenreChoiceBoxU();
+
+        //region Only FutureDates
+        Veranstaltungen_Datum_From.setDayCellFactory(picker -> new DateCell() {
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                LocalDate today = LocalDate.now();
+
+                setDisable(empty || date.compareTo(today) < 0 );
+            }
+        });
+        Veranstaltungen_Datum_To1.setDayCellFactory(picker -> new DateCell() {
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                LocalDate today = LocalDate.now();
+
+                setDisable(empty || date.compareTo(today) < 0 );
+            }
+        });
+
+        //endregion
+
+        //region Listener
         Veranstaltungen_Table.getSelectionModel().selectedItemProperty().addListener(this::onVenueChanged);
+        Veranstaltungen_Bezeichnung_Searchbar.textProperty().addListener(this::onFilterChanged);
+        Veranstaltungen_Kuenstler_Searchbar.textProperty().addListener(this::onFilterChanged);
+        Veranstaltungen_Genre_Searchbar.getSelectionModel().selectedItemProperty().addListener(this::onFilterChanged);
+        Veranstaltungen_Datum_From.valueProperty().addListener(this::onDateFilterChanged);
+        Veranstaltungen_Datum_To1.valueProperty().addListener(this::onDateFilterChanged);
+        Veranstaltung_Bez_Button.setOnAction(event -> {
+            Veranstaltungen_Bezeichnung_Searchbar.setText("");
+            onFilterChanged(null, "", "");
+        });
+        Veranstaltung_Kue_Button.setOnAction(event -> {
+            Veranstaltungen_Kuenstler_Searchbar.setText("");
+            onFilterChanged(null, "", "");
+        });
+        Veranstaltung_Genre_Button.setOnAction(event -> {
+            Veranstaltungen_Genre_Searchbar.getSelectionModel().clearSelection();
+            onFilterChanged(null, "", "");
+        });
+        Veranstaltung_Datum_From_Button.setOnAction(event -> {
+            Veranstaltungen_Datum_From.getEditor().clear();
+            Veranstaltungen_Datum_From.setValue(null);
+            onFilterChanged(null, "", "");
+        });
+        Veranstaltung_Datum_To_Button.setOnAction(event -> {
+            Veranstaltungen_Datum_To1.getEditor().clear();
+            Veranstaltungen_Datum_To1.setValue(null);
+            onFilterChanged(null, "", "");
+        });
+
+        //endregionM
+
+
+
 
     }
 
     private void onVenueChanged(ObservableValue<? extends VenueDto> obs, VenueDto oldSelection, VenueDto newSelection) {
 
         if (newSelection != null) {
+
+            Veranstaltung_Verkaufen_Button.setDisable(false);
             if (newSelection.getProgram().getDescription() != null) {
                 Veranstaltungen_Bezeichnung_Label.setText(newSelection.getProgram().getDescription());
             } else {
@@ -130,7 +218,7 @@ public class VeranstaltungController implements Initializable {
             }
 
             if (String.format(_format, newSelection.getDate()) != null) {
-                Veranstaltungen_Datum_Label.setText(String.format(_format, newSelection.getDate()));
+                Veranstaltungen_Datum_Label.setText(newSelection.getDate().format(formatter));
             } else {
                 Veranstaltungen_Datum_Label.setText("-");
             }
@@ -219,7 +307,31 @@ public class VeranstaltungController implements Initializable {
         Veranstaltungen_Genre_Label.setMouseTransparent(true);
 
 
+    }private void populateVenueTable (Set<VenueDto> venues){
+        _veranstaltungenGesamt.setAll(venues);
+        Veranstaltungen_Table.setItems(_veranstaltungenGesamt);
     }
+
+    private void populateGenreChoiceBoxU() {
+        _GenresGesamt.setAll(easyTicketService.getAllGenres());
+        Veranstaltungen_Genre_Searchbar.setItems(_GenresGesamt);
+    }
+
+    private void onFilterChanged(ObservableValue<? extends String> obs, String oldSelection, String newSelection){
+        _filterBezeichnung = Veranstaltungen_Bezeichnung_Searchbar.getText();
+        _filterKuenstler  = Veranstaltungen_Kuenstler_Searchbar.getText();
+        _filterDatumFrom = Veranstaltungen_Datum_From.getValue();
+        _filterDatumTo = Veranstaltungen_Datum_To1.getValue();
+        _filterGenre = Veranstaltungen_Genre_Searchbar.getValue();
+        Set<VenueDto> filteredSet = easyTicketService.searchVenue(_filterBezeichnung, _filterGenre, _filterKuenstler,  LocalDateTime.of(_filterDatumFrom, LocalTime.now()), LocalDateTime.of(_filterDatumTo, LocalTime.now()));
+        populateVenueTable(filteredSet);
+    }
+
+    private void onDateFilterChanged(ObservableValue<? extends LocalDate> obs, LocalDate oldSelection, LocalDate newSelection){
+        onFilterChanged(null, "", "");
+    }
+
+
 
 
 }

@@ -15,61 +15,25 @@
     <MenuBar VBox.vgrow="NEVER">
       <menus>
             <Menu mnemonicParsing="false" text="EasyTicket">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-              </items>
             </Menu>
-        <Menu mnemonicParsing="false" text="Datei">
-          <items>
-            <MenuItem mnemonicParsing="false" text="New" />
-            <MenuItem mnemonicParsing="false" text="Open…" />
-            <Menu mnemonicParsing="false" text="Open Recent" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Close" />
-            <MenuItem mnemonicParsing="false" text="Save" />
-            <MenuItem mnemonicParsing="false" text="Save As…" />
-            <MenuItem mnemonicParsing="false" text="Revert" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Preferences…" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Quit" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Bearbeiten">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Undo" />
-            <MenuItem mnemonicParsing="false" text="Redo" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cut" />
-            <MenuItem mnemonicParsing="false" text="Copy" />
-            <MenuItem mnemonicParsing="false" text="Paste" />
-            <MenuItem mnemonicParsing="false" text="Delete" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Select All" />
-            <MenuItem mnemonicParsing="false" text="Unselect All" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Hilfe">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-          </items>
-        </Menu>
       </menus>
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
             <TabPane fx:id="tabPane" prefHeight="603.0" prefWidth="923.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <tabs>
-                  <Tab fx:id="Uebersicht_Tab" text="Übersicht">
-                     <content>
-                        <AnchorPane fx:id="uebersicht_pane" prefHeight="200.0" prefWidth="200.0" />
-                     </content></Tab>
-                  <Tab fx:id="Kunden_Tab" text="Kunden">
-                     <content>
-                        <AnchorPane fx:id="kunden_pane" prefHeight="200.0" prefWidth="200.0" />
-                     </content></Tab>
+
+
                   <Tab fx:id="Veranstaltung_Tab" text="Veranstaltungen">
                     <fx:include fx:id="Veranstaltung_Pane" source="../veranstaltung/veranstaltung.fxml" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="160" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0" /></Tab>
+                   <Tab fx:id="Kunden_Tab" text="Kunden">
+                       <content>
+                           <AnchorPane fx:id="kunden_pane" prefHeight="200.0" prefWidth="200.0" />
+                       </content></Tab>
+                   <Tab fx:id="Uebersicht_Tab" text="Übersicht">
+                       <content>
+                           <AnchorPane fx:id="uebersicht_pane" prefHeight="200.0" prefWidth="200.0" />
+                       </content></Tab>
                </tabs>
             </TabPane>
       </children>
