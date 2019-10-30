@@ -24,7 +24,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -36,6 +35,43 @@ import java.util.Set;
 public class VeranstaltungController implements Initializable {
 
     private final EasyTicketService easyTicketService;
+
+    private final  EventHandler<ActionEvent> onFilterChanged = new EventHandler<ActionEvent>(){
+
+        @Override
+        public void handle(final ActionEvent event) {
+            updateFilterValues();
+            Set<VenueDto> filteredSet = easyTicketService.searchVenue(_filterBezeichnung, _filterGenre, _filterKuenstler,  LocalDateTime.of(_filterDatumFrom, LocalTime.now()), LocalDateTime.of(_filterDatumTo, LocalTime.now()));
+            populateVenueTable(filteredSet);
+        }
+    };
+
+    private final  EventHandler<ActionEvent> onDeleteFilterButtonPressed = new EventHandler<ActionEvent>(){
+
+        @Override
+        public void handle(final ActionEvent event) {
+            if (event.getSource()==Veranstaltung_Bez_Button ){
+                Veranstaltungen_Bezeichnung_Searchbar.setText("");
+            }
+            if (event.getSource()==Veranstaltung_Kue_Button ){
+                Veranstaltungen_Kuenstler_Searchbar.setText("");
+            }
+            if (event.getSource()==Veranstaltung_Genre_Button ){
+                Veranstaltungen_Genre_Searchbar.getSelectionModel().clearSelection();
+            }
+            if (event.getSource()==Veranstaltung_Datum_From_Button ){
+                Veranstaltungen_Datum_From.getEditor().clear();
+                Veranstaltungen_Datum_From.setValue(null);
+            }
+            if (event.getSource()==Veranstaltung_Datum_To_Button ){
+                Veranstaltungen_Datum_To1.getEditor().clear();
+                Veranstaltungen_Datum_To1.setValue(null);
+            }
+            updateFilterValues();
+            Set<VenueDto> filteredSet = easyTicketService.searchVenue(_filterBezeichnung, _filterGenre, _filterKuenstler,  LocalDateTime.of(_filterDatumFrom, LocalTime.now()), LocalDateTime.of(_filterDatumTo, LocalTime.now()));
+            populateVenueTable(filteredSet);
+        }
+    };
 
 
     //region FXML Declarations
@@ -140,14 +176,16 @@ public class VeranstaltungController implements Initializable {
         setLabelsDisabled();
         Veranstaltung_Verkaufen_Button.setDisable(true);
         initializeVeranstaltungTable();
+
         _veranstaltungenGesamt = FXCollections.observableArrayList();
+        _GenresGesamt = FXCollections.observableArrayList();
         _allVenues = easyTicketService.getAllVenues();
 
         log.info("Venues ================");
         System.out.println(_allVenues);
 
         populateVenueTable(_allVenues);
-        //populateGenreChoiceBoxU();
+        populateGenreChoiceBoxU();
 
         //region Only FutureDates
         Veranstaltungen_Datum_From.setDayCellFactory(picker -> new DateCell() {
@@ -169,39 +207,22 @@ public class VeranstaltungController implements Initializable {
 
         //endregion
 
-        //region Listener
+        //region OnActionHandler
+
         Veranstaltungen_Table.getSelectionModel().selectedItemProperty().addListener(this::onVenueChanged);
-        Veranstaltungen_Bezeichnung_Searchbar.textProperty().addListener(this::onFilterChanged);
-        Veranstaltungen_Kuenstler_Searchbar.textProperty().addListener(this::onFilterChanged);
-        Veranstaltungen_Genre_Searchbar.getSelectionModel().selectedItemProperty().addListener(this::onFilterChanged);
-        Veranstaltungen_Datum_From.valueProperty().addListener(this::onDateFilterChanged);
-        Veranstaltungen_Datum_To1.valueProperty().addListener(this::onDateFilterChanged);
-        Veranstaltung_Bez_Button.setOnAction(event -> {
-            Veranstaltungen_Bezeichnung_Searchbar.setText("");
-            onFilterChanged(null, "", "");
-        });
-        Veranstaltung_Kue_Button.setOnAction(event -> {
-            Veranstaltungen_Kuenstler_Searchbar.setText("");
-            onFilterChanged(null, "", "");
-        });
-        Veranstaltung_Genre_Button.setOnAction(event -> {
-            Veranstaltungen_Genre_Searchbar.getSelectionModel().clearSelection();
-            onFilterChanged(null, "", "");
-        });
-        Veranstaltung_Datum_From_Button.setOnAction(event -> {
-            Veranstaltungen_Datum_From.getEditor().clear();
-            Veranstaltungen_Datum_From.setValue(null);
-            onFilterChanged(null, "", "");
-        });
-        Veranstaltung_Datum_To_Button.setOnAction(event -> {
-            Veranstaltungen_Datum_To1.getEditor().clear();
-            Veranstaltungen_Datum_To1.setValue(null);
-            onFilterChanged(null, "", "");
-        });
+        Veranstaltungen_Bezeichnung_Searchbar.setOnAction(onFilterChanged);
+        Veranstaltungen_Kuenstler_Searchbar.setOnAction(onFilterChanged);
+        Veranstaltungen_Genre_Searchbar.setOnAction(onFilterChanged);
+        Veranstaltungen_Datum_From.setOnAction(onFilterChanged);
+        Veranstaltungen_Datum_To1.setOnAction(onFilterChanged);
+
+        Veranstaltung_Bez_Button.setOnAction(onDeleteFilterButtonPressed);
+        Veranstaltung_Kue_Button.setOnAction(onDeleteFilterButtonPressed);
+        Veranstaltung_Genre_Button.setOnAction(onDeleteFilterButtonPressed);
+        Veranstaltung_Datum_From_Button.setOnAction(onDeleteFilterButtonPressed);
+        Veranstaltung_Datum_To_Button.setOnAction(onDeleteFilterButtonPressed);
 
         //endregionM
-
-
 
 
     }
@@ -317,19 +338,15 @@ public class VeranstaltungController implements Initializable {
         Veranstaltungen_Genre_Searchbar.setItems(_GenresGesamt);
     }
 
-    private void onFilterChanged(ObservableValue<? extends String> obs, String oldSelection, String newSelection){
+    private void updateFilterValues(){
         _filterBezeichnung = Veranstaltungen_Bezeichnung_Searchbar.getText();
         _filterKuenstler  = Veranstaltungen_Kuenstler_Searchbar.getText();
         _filterDatumFrom = Veranstaltungen_Datum_From.getValue();
         _filterDatumTo = Veranstaltungen_Datum_To1.getValue();
         _filterGenre = Veranstaltungen_Genre_Searchbar.getValue();
-        Set<VenueDto> filteredSet = easyTicketService.searchVenue(_filterBezeichnung, _filterGenre, _filterKuenstler,  LocalDateTime.of(_filterDatumFrom, LocalTime.now()), LocalDateTime.of(_filterDatumTo, LocalTime.now()));
-        populateVenueTable(filteredSet);
     }
 
-    private void onDateFilterChanged(ObservableValue<? extends LocalDate> obs, LocalDate oldSelection, LocalDate newSelection){
-        onFilterChanged(null, "", "");
-    }
+
 
 
 
