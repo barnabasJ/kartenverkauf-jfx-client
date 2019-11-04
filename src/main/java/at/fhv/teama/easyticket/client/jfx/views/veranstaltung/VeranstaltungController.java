@@ -1,6 +1,10 @@
 package at.fhv.teama.easyticket.client.jfx.views.veranstaltung;
 
+import at.fhv.teama.easyticket.client.jfx.views.ticketverkauf.TicketverkaufController;
+import at.fhv.teama.easyticket.client.jfx.views.ticketverkauf.TicketverkaufView;
 import at.fhv.teama.easyticket.dto.ArtistDto;
+import at.fhv.teama.easyticket.dto.TicketDto;
+import at.fhv.teama.easyticket.dto.TicketState;
 import at.fhv.teama.easyticket.dto.VenueDto;
 import at.fhv.teama.easyticket.rmi.EasyTicketService;
 import javafx.beans.property.SimpleStringProperty;
@@ -11,8 +15,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
@@ -26,6 +33,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 @Component
@@ -35,6 +43,8 @@ import java.util.Set;
 public class VeranstaltungController implements Initializable {
 
     private final EasyTicketService easyTicketService;
+
+    //region Handlers
 
     private final  EventHandler<ActionEvent> onFilterChanged = new EventHandler<ActionEvent>(){
 
@@ -73,6 +83,22 @@ public class VeranstaltungController implements Initializable {
         }
     };
 
+    private final  EventHandler<ActionEvent> onBuyTicketclicked = new EventHandler<ActionEvent>(){
+
+        @Override
+        public void handle(final ActionEvent event) {
+            Stage newWindow = new Stage();
+            newWindow.initModality(Modality.APPLICATION_MODAL);
+            Scene buyTicketScene = new Scene(new TicketverkaufView().getView());
+            newWindow.setScene(buyTicketScene);
+            newWindow.show();
+
+
+
+        }
+    };
+
+    //endregion
 
     //region FXML Declarations
     @FXML
@@ -155,13 +181,16 @@ public class VeranstaltungController implements Initializable {
 
     //endregion
 
+    //region Table and List Arrays and Sets
     private ObservableList<VenueDto> _veranstaltungenGesamt;
     private Set<VenueDto> _allVenues;
 
 
     private ObservableList<String> _GenresGesamt;
     private Set<String> _allGenres;
+    //endregion
 
+    //region Filters and Formatters
     private String _filterBezeichnung;
     private String _filterKuenstler;
     private LocalDate _filterDatumFrom;
@@ -169,6 +198,9 @@ public class VeranstaltungController implements Initializable {
     private String _filterGenre;
     private String _format = "dd.MM.yyyy HH:mm:ss";
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern(_format);
+
+    //endregion
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -222,7 +254,9 @@ public class VeranstaltungController implements Initializable {
         Veranstaltung_Datum_From_Button.setOnAction(onDeleteFilterButtonPressed);
         Veranstaltung_Datum_To_Button.setOnAction(onDeleteFilterButtonPressed);
 
-        //endregionM
+        Veranstaltung_Verkaufen_Button.setOnAction(onBuyTicketclicked);
+
+        //endregionMs
 
 
     }
@@ -262,8 +296,8 @@ public class VeranstaltungController implements Initializable {
                 Veranstaltungen_Ort_Label.setText("-");
             }
 
-            if (newSelection.getTickets().isEmpty() == false) {
-                Veranstaltungen_Verfügbar_Label.setText("Tickets verfügbar");
+            if (countEmptySeats(newSelection) >0) {
+                Veranstaltungen_Verfügbar_Label.setText("Freie Plätze: "+countEmptySeats(newSelection)+"/"+newSelection.getTickets().size());
             } else {
                 Veranstaltungen_Verfügbar_Label.setText("AUSVERKAUFT");
             }
@@ -328,7 +362,9 @@ public class VeranstaltungController implements Initializable {
         Veranstaltungen_Genre_Label.setMouseTransparent(true);
 
 
-    }private void populateVenueTable (Set<VenueDto> venues){
+    }
+
+    private void populateVenueTable (Set<VenueDto> venues){
         _veranstaltungenGesamt.setAll(venues);
         Veranstaltungen_Table.setItems(_veranstaltungenGesamt);
     }
@@ -344,6 +380,20 @@ public class VeranstaltungController implements Initializable {
         _filterDatumFrom = Veranstaltungen_Datum_From.getValue();
         _filterDatumTo = Veranstaltungen_Datum_To1.getValue();
         _filterGenre = Veranstaltungen_Genre_Searchbar.getValue();
+    }
+
+    private int countEmptySeats (VenueDto venue){
+
+        AtomicInteger free = new AtomicInteger(0);
+        Set<TicketDto> tickets = venue.getTickets();
+
+        for (TicketDto t:tickets) {
+            if (t.getState().equals(TicketState.FREE)){
+                 free.addAndGet(1);
+            }
+        }
+
+        return free.intValue();
     }
 
 

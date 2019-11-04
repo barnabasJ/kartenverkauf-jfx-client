@@ -78,6 +78,6 @@
             <Font size="20.0" />
          </font>
       </Text>
-      <Button fx:id="Veranstaltung_Erstellen_Button" layoutX="607.0" layoutY="529.0" mnemonicParsing="false" text="Veranstaltung erstellen" />
+      <Button fx:id="Veranstaltung_Erstellen_Button" layoutX="607.0" layoutY="529.0" mnemonicParsing="false" text="Veranstaltung erstellen"  />
    </children>
 </AnchorPane>
