@@ -1,5 +1,6 @@
 package at.fhv.teama.easyticket.client.jfx.views.veranstaltung;
 
+import at.fhv.teama.easyticket.client.jfx.views.Model;
 import at.fhv.teama.easyticket.client.jfx.views.ticketverkauf.TicketverkaufController;
 import at.fhv.teama.easyticket.client.jfx.views.ticketverkauf.TicketverkaufView;
 import at.fhv.teama.easyticket.dto.ArtistDto;
@@ -7,6 +8,7 @@ import at.fhv.teama.easyticket.dto.TicketDto;
 import at.fhv.teama.easyticket.dto.TicketState;
 import at.fhv.teama.easyticket.dto.VenueDto;
 import at.fhv.teama.easyticket.rmi.EasyTicketService;
+import com.airhacks.afterburner.injection.Injector;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -89,6 +91,8 @@ public class VeranstaltungController implements Initializable {
         public void handle(final ActionEvent event) {
             Stage newWindow = new Stage();
             newWindow.initModality(Modality.APPLICATION_MODAL);
+            Model m = Model.getInstance();
+            m.setSelectedVenue(Veranstaltungen_Table.getSelectionModel().selectedItemProperty().getValue());
             Scene buyTicketScene = new Scene(new TicketverkaufView().getView());
             newWindow.setScene(buyTicketScene);
             newWindow.show();

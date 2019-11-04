@@ -11,14 +11,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="431.0" prefWidth="609.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.fhv.teama.easyticket.client.jfx.views.ticketverkauf.TicketverkaufController">
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="431.0" prefWidth="609.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.fhv.teama.easyticket.client.jfx.views.ticketverkauf.TicketverkaufController">
    <children>
       <Text layoutX="14.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sitzplatzwahl" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="100.59765625">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <ChoiceBox layoutX="333.0" layoutY="51.0" prefHeight="27.0" prefWidth="293.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="51.0" />
+      <ChoiceBox fx:id="kunden_ChoiceBar" layoutX="333.0" layoutY="51.0" prefHeight="27.0" prefWidth="293.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="51.0" />
       <Text layoutX="14.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Veranstaltung" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="17.73046875">
          <font>
             <Font size="22.0" />
@@ -31,202 +31,29 @@
       </Text>
       <AnchorPane layoutX="14.0" layoutY="351.0" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="14.0">
          <children>
-            <ToggleButton mnemonicParsing="false" text="X/X" textFill="#6cab60">
+            <ToggleButton fx:id="Kat1_Button" mnemonicParsing="false" text="X/X" textFill="#6cab60">
                <font>
                   <Font size="11.0" />
                </font>
             </ToggleButton>
-            <ToggleButton layoutY="25.0" mnemonicParsing="false" text="X/X" textFill="#4a70b2">
+            <ToggleButton fx:id="Kat2_Button" layoutY="25.0" mnemonicParsing="false" text="X/X" textFill="#4a70b2">
                <font>
                   <Font size="11.0" />
                </font>
             </ToggleButton>
-            <ToggleButton layoutY="49.0" mnemonicParsing="false" text="X/X" textFill="RED">
+            <ToggleButton fx:id="Kat3_Button" layoutY="49.0" mnemonicParsing="false" text="X/X" textFill="RED">
                <font>
                   <Font size="11.0" />
                </font>
             </ToggleButton>
-            <Text layoutX="37.0" layoutY="14.431640625" strokeType="OUTSIDE" strokeWidth="0.0" text="Kategorie A: 25€/Ticket" />
-            <Text layoutX="37.0" layoutY="40.431640625" strokeType="OUTSIDE" strokeWidth="0.0" text="Kategorie B: 20€/Ticket" wrappingWidth="140.802734375" />
-            <Text layoutX="37.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kategorie C: 15€/Ticket" />
+            <Text fx:id="Kategorie1_Label" layoutX="37.0" layoutY="14.431640625" strokeType="OUTSIDE" strokeWidth="0.0" text="Kategorie A: 25€/Ticket" />
+            <Text fx:id="Kategorie2_Label" layoutX="37.0" layoutY="40.431640625" strokeType="OUTSIDE" strokeWidth="0.0" text="Kategorie B: 20€/Ticket" wrappingWidth="140.802734375" />
+            <Text fx:id="Kategorie3_Label" layoutX="37.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kategorie C: 15€/Ticket" />
          </children>
       </AnchorPane>
       <ScrollPane layoutX="14.0" layoutY="126.0" prefHeight="205.0" prefWidth="259.0" AnchorPane.bottomAnchor="89.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="125.0">
          <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="143.0" prefWidth="257.0">
-               <children>
-                  <AnchorPane>
-                     <children>
-                        <ToggleButton layoutX="3.0" layoutY="9.0" mnemonicParsing="false" text="1/1" textFill="#6cab60">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                        <ToggleButton layoutX="37.0" layoutY="9.0" mnemonicParsing="false" text="1/2" textFill="#6cab60">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                        <ToggleButton layoutX="72.0" layoutY="9.0" mnemonicParsing="false" text="1/3" textFill="#6cab60">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                        <ToggleButton layoutX="142.0" layoutY="9.0" mnemonicParsing="false" text="1/5" textFill="#6cab60">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                        <ToggleButton layoutX="177.0" layoutY="9.0" mnemonicParsing="false" text="1/6" textFill="#6cab60">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                        <ToggleButton layoutX="107.0" layoutY="9.0" mnemonicParsing="false" text="1/4" textFill="#6cab60">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane layoutY="25.0" prefHeight="29.0" prefWidth="198.0">
-                     <children>
-                        <ToggleButton layoutX="3.0" layoutY="9.0" mnemonicParsing="false" text="2/1" textFill="#4a70b2">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                        <ToggleButton layoutX="37.0" layoutY="9.0" mnemonicParsing="false" text="2/2" textFill="#4a70b2">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                        <ToggleButton layoutX="72.0" layoutY="9.0" mnemonicParsing="false" text="2/3" textFill="#4a70b2">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                        <ToggleButton layoutX="142.0" layoutY="9.0" mnemonicParsing="false" text="2/5" textFill="#4a70b2">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                        <ToggleButton layoutX="177.0" layoutY="9.0" mnemonicParsing="false" text="2/6" textFill="#4a70b2">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                        <ToggleButton layoutX="107.0" layoutY="9.0" mnemonicParsing="false" text="2/4" textFill="#4a70b2">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane layoutY="66.0" prefHeight="20.0" prefWidth="206.0">
-                     <children>
-                        <ToggleButton layoutX="4.0" layoutY="-7.0" mnemonicParsing="false" text="3/1" textFill="#3c65ab">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                        <ToggleButton layoutX="38.0" layoutY="-7.0" mnemonicParsing="false" text="3/2" textFill="#3c65ab">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                        <ToggleButton layoutX="73.0" layoutY="-7.0" mnemonicParsing="false" text="3/3" textFill="#3c65ab">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                        <ToggleButton layoutX="143.0" layoutY="-7.0" mnemonicParsing="false" text="3/5" textFill="#3c65ab">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                        <ToggleButton layoutX="178.0" layoutY="-7.0" mnemonicParsing="false" text="3/6" textFill="#3c65ab">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                        <ToggleButton layoutX="108.0" layoutY="-7.0" mnemonicParsing="false" text="3/4" textFill="#3c65ab">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane layoutX="14.0" layoutY="88.0" prefHeight="20.0" prefWidth="217.0">
-                     <children>
-                        <ToggleButton layoutX="-10.0" layoutY="-4.0" mnemonicParsing="false" text="4/1" textFill="RED">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                        <ToggleButton layoutX="24.0" layoutY="-4.0" mnemonicParsing="false" text="4/2" textFill="RED">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                        <ToggleButton layoutX="59.0" layoutY="-4.0" mnemonicParsing="false" text="4/3" textFill="RED">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                        <ToggleButton layoutX="129.0" layoutY="-4.0" mnemonicParsing="false" text="4/5" textFill="RED">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                        <ToggleButton layoutX="164.0" layoutY="-4.0" mnemonicParsing="false" text="4/6" textFill="RED">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                        <ToggleButton layoutX="94.0" layoutY="-4.0" mnemonicParsing="false" text="4/4" textFill="RED">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane layoutX="14.0" layoutY="114.0" prefHeight="18.0" prefWidth="217.0">
-                     <children>
-                        <ToggleButton layoutX="-10.0" layoutY="-4.0" mnemonicParsing="false" text="5/1" textFill="RED">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                        <ToggleButton layoutX="24.0" layoutY="-4.0" mnemonicParsing="false" text="5/2" textFill="RED">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                        <ToggleButton layoutX="59.0" layoutY="-4.0" mnemonicParsing="false" text="5/3" textFill="RED">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                        <ToggleButton layoutX="129.0" layoutY="-4.0" mnemonicParsing="false" text="5/5" textFill="RED">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                        <ToggleButton layoutX="164.0" layoutY="-4.0" mnemonicParsing="false" text="5/6" textFill="RED">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                        <ToggleButton layoutX="94.0" layoutY="-4.0" mnemonicParsing="false" text="5/4" textFill="RED">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </ToggleButton>
-                     </children>
-                  </AnchorPane>
-               </children>
-            </AnchorPane>
+            <AnchorPane fx:id="SitzplatzPane" minHeight="0.0" minWidth="0.0" prefHeight="143.0" prefWidth="257.0" />
          </content>
       </ScrollPane>
       <Text layoutX="334.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zusammenfassung" AnchorPane.rightAnchor="160.27734375" AnchorPane.topAnchor="100.59765625">
@@ -234,7 +61,7 @@
             <Font size="18.0" />
          </font>
       </Text>
-      <ListView layoutX="333.0" layoutY="126.0" prefHeight="146.0" prefWidth="292.0" AnchorPane.bottomAnchor="89.0" AnchorPane.leftAnchor="287.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="126.0" />
+      <ListView fx:id="TicketList" layoutX="333.0" layoutY="126.0" prefHeight="146.0" prefWidth="292.0" AnchorPane.bottomAnchor="89.0" AnchorPane.leftAnchor="287.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="126.0" />
       <Group layoutX="375.0" layoutY="284.0" AnchorPane.bottomAnchor="54.0" AnchorPane.rightAnchor="16.0">
          <children>
             <Text layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gesamtsumme">
@@ -242,15 +69,15 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <Label layoutX="225.0" prefHeight="23.0" prefWidth="65.0" text="0,00 €" textAlignment="CENTER">
+            <Label fx:id="sum_field" layoutX="225.0" prefHeight="23.0" prefWidth="65.0" text="0,00 €" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
          </children>
       </Group>
-      <Button layoutX="509.0" layoutY="323.0" mnemonicParsing="false" text="Tickets verkaufen" AnchorPane.bottomAnchor="9.0" AnchorPane.rightAnchor="16.0" />
-      <Button layoutX="337.0" layoutY="323.0" mnemonicParsing="false" text="Tickets reservieren" AnchorPane.bottomAnchor="9.0" AnchorPane.rightAnchor="182.0" />
-      <Text layoutX="16.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gewaehlte Veransaltung" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="52.0" />
+      <Button fx:id="Verkaufen_Button" layoutX="509.0" layoutY="323.0" mnemonicParsing="false" text="Tickets verkaufen" AnchorPane.bottomAnchor="9.0" AnchorPane.rightAnchor="16.0" />
+      <Button fx:id="Reservieren_Button" layoutX="337.0" layoutY="323.0" mnemonicParsing="false" text="Tickets reservieren" AnchorPane.bottomAnchor="9.0" AnchorPane.rightAnchor="182.0" />
+      <Label fx:id="venue_label" layoutX="16.0" layoutY="65.0" text="Gewaehlte Veransaltung" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="52.0" />
    </children>
 </AnchorPane>
