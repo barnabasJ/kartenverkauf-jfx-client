@@ -90,11 +90,11 @@ public class TicketverkaufController implements Initializable {
 
     //endregion
 
-    private ObservableList<PersonDto> PersonGesamt;
-    private Set<PersonDto> allPersons;
-    private PersonDto selPerson;
+    private ObservableList<PersonDto> PersonGesamt = FXCollections.observableArrayList();
+    private Set<PersonDto> allPersons = new HashSet<>();
 
-    private ObservableList<TicketDto> TicketsGewaehltGesamt;
+
+    private ObservableList<TicketDto> TicketsGewaehltGesamt = FXCollections.observableArrayList();
     private ArrayList<TicketDto> allTickets = new ArrayList<>();
 
 
@@ -104,7 +104,7 @@ public class TicketverkaufController implements Initializable {
     private Model model= Model.getInstance();
     private VenueDto venue ;
 
-    private boolean[] categories = new boolean[6];
+
 
 
     //region Handlers
@@ -146,6 +146,7 @@ public class TicketverkaufController implements Initializable {
                 alert.setHeaderText("Erfolgreicher Kauf");
                 alert.setContentText("Glückwunsch, ihre "+allTickets.size()+" Tickets wurden erfolgreich gebucht.");
                 alert.showAndWait();
+                model.setSelectedPerson(null);
                 Node source = (Node) event.getSource();
                 Stage stage = (Stage) source.getScene().getWindow();
                 stage.close();
@@ -161,6 +162,10 @@ public class TicketverkaufController implements Initializable {
                 alert.setContentText(retTickets.size()+" ihrer gewünschten Ticket/s konnten nicht gebucht werden.\n"+content);
 
                 alert.showAndWait();
+                model.setSelectedPerson(null);
+                Node source = (Node) event.getSource();
+                Stage stage = (Stage) source.getScene().getWindow();
+                stage.close();
             }
 
 
@@ -186,27 +191,24 @@ public class TicketverkaufController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        clearEverything();
+
         disableCategoryButtons();
         venue = model.getSelectedVenue();
         initVenueLabel();
 
-        PersonGesamt = FXCollections.observableArrayList();
-        allPersons = easyTicketService.getAllCustomer();
-        PersonGesamt.setAll(allPersons);
-        kunden_ChoiceBar.setItems(PersonGesamt);
+        initPersons();
         kunden_ChoiceBar.setOnAction(onCustomerChanged);
 
         TicketsGewaehltGesamt = FXCollections.observableArrayList();
         TicketList.setSelectionModel(null);
-        getCategoryBools();
+
         generateSeatButtons();
 
         Verkaufen_Button.setOnAction(onBuyTicketClicked);
         DeletePersonButton.setOnAction(onCustomerDeleteChanged);
 
     }
-
-
 
     public void initVenueLabel(){
         if (venue != null){
@@ -229,18 +231,10 @@ public class TicketverkaufController implements Initializable {
         Kat5_Button.setStyle("-fx-text-fill: #8a0002; ");
     }
 
-    public void setUpCategoryLegend(){
-        for (int i = 1; i<6; i++){
-
-        }
-
-    }
-
     public void generateSeatButtons(){
         ArrayList<TicketDto> tickets = new ArrayList<>();
         tickets.addAll(venue.getTickets());
         Collections.sort(tickets, TicketComp);
-
 
         for (TicketDto t:tickets) {
             ToggleButton b = new ToggleButton();
@@ -254,7 +248,7 @@ public class TicketverkaufController implements Initializable {
                 case 2:
                     b.setStyle("-fx-text-fill: #007295; ");
                     break;
-                case 3:b.setStyle("-fx-text-fill: #340060; ");categories[3]=true;
+                case 3:b.setStyle("-fx-text-fill: #340060; ");
                     break;
                 case 4:
                     b.setStyle("-fx-text-fill: #870087; ");
@@ -302,6 +296,13 @@ public class TicketverkaufController implements Initializable {
 
     }
 
+    public void initPersons(){
+        PersonGesamt = FXCollections.observableArrayList();
+        allPersons = easyTicketService.getAllCustomer();
+        PersonGesamt.setAll(allPersons);
+        kunden_ChoiceBar.setItems(PersonGesamt);
+    }
+
     public void getSumAndUpdateField(){
         int sum = 0;
         for(TicketDto t : allTickets){
@@ -310,30 +311,6 @@ public class TicketverkaufController implements Initializable {
         sum_field.setText(sum/100+" €");
     }
 
-    public void getCategoryBools(){
-
-        for (TicketDto t: model.getSelectedVenue().getTickets()){
-            switch (t.getCategory().getId().intValue()) {
-                case 1:
-                    categories[1]=true;
-                    break;
-                case 2:
-                    categories[2]=true;
-                    break;
-                case 3:
-                    categories[3]=true;
-                    break;
-                case 4:
-                    categories[4]=true;
-                    break;
-                case 5:
-                    categories[5]=true;
-                    break;
-
-            }
-        }
-
-    }
 
     public static Comparator<TicketDto> TicketComp = (t1, t2) -> {
 
@@ -342,6 +319,15 @@ public class TicketverkaufController implements Initializable {
 
         return tcor1-tcor2;
     };
+
+    public void clearEverything(){
+        allPersons.clear();
+        PersonGesamt.clear();
+        buttons.clear();
+        allTickets.clear();
+        TicketsGewaehltGesamt.clear();
+        TicketList.getItems().clear();
+    }
 
 
 }

@@ -95,7 +95,9 @@ public class VeranstaltungController implements Initializable {
             m.setSelectedVenue(Veranstaltungen_Table.getSelectionModel().selectedItemProperty().getValue());
             Scene buyTicketScene = new Scene(new TicketverkaufView().getView());
             newWindow.setScene(buyTicketScene);
-            newWindow.show();
+            newWindow.showAndWait();
+            updateGUI();
+
 
 
 
@@ -213,9 +215,7 @@ public class VeranstaltungController implements Initializable {
         Veranstaltung_Verkaufen_Button.setDisable(true);
         initializeVeranstaltungTable();
 
-        _veranstaltungenGesamt = FXCollections.observableArrayList();
-        _GenresGesamt = FXCollections.observableArrayList();
-        _allVenues = easyTicketService.getAllVenues();
+        initVenues();
 
         log.info("Venues ================");
         System.out.println(_allVenues);
@@ -263,6 +263,12 @@ public class VeranstaltungController implements Initializable {
         //endregionMs
 
 
+    }
+
+    public void initVenues(){
+        _veranstaltungenGesamt = FXCollections.observableArrayList();
+        _GenresGesamt = FXCollections.observableArrayList();
+        _allVenues = easyTicketService.getAllVenues();
     }
 
     private void onVenueChanged(ObservableValue<? extends VenueDto> obs, VenueDto oldSelection, VenueDto newSelection) {
@@ -331,6 +337,7 @@ public class VeranstaltungController implements Initializable {
             }
             return new SimpleStringProperty("-");
         });
+        Veranstaltungen_Datum_Col.setSortType(TableColumn.SortType.ASCENDING);
 
         Veranstaltungen_Kuenstler_Col.setCellValueFactory(p -> {
             ArrayList<ArtistDto> artist = new ArrayList<>(p.getValue().getProgram().getArtists());
@@ -386,18 +393,30 @@ public class VeranstaltungController implements Initializable {
         _filterGenre = Veranstaltungen_Genre_Searchbar.getValue();
     }
 
-    private int countEmptySeats (VenueDto venue){
+    private int countEmptySeats (VenueDto venue) {
 
         AtomicInteger free = new AtomicInteger(0);
         Set<TicketDto> tickets = venue.getTickets();
 
-        for (TicketDto t:tickets) {
-            if (t.getState().equals(TicketState.FREE)){
-                 free.addAndGet(1);
+        for (TicketDto t : tickets) {
+            if (t.getState().equals(TicketState.FREE)) {
+                free.addAndGet(1);
             }
         }
 
         return free.intValue();
+    }
+
+    private void updateGUI(){
+        Veranstaltungen_Table.getSelectionModel().clearSelection();
+        Veranstaltung_Verkaufen_Button.setDisable(true);
+        initializeVeranstaltungTable();
+
+        initVenues();
+
+        populateVenueTable(_allVenues);
+        populateGenreChoiceBoxU();
+
     }
 
 
