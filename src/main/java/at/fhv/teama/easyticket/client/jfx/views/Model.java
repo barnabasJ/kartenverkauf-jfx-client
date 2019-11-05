@@ -1,5 +1,6 @@
 package at.fhv.teama.easyticket.client.jfx.views;
 
+import at.fhv.teama.easyticket.dto.PersonDto;
 import at.fhv.teama.easyticket.dto.VenueDto;
 import javafx.stage.Modality;
 import lombok.Data;
@@ -11,7 +12,9 @@ public class Model {
 
     private static Model modelInstance;
 
-    public VenueDto selectedVenue;
+    private VenueDto selectedVenue;
+    private PersonDto selectedPerson;
+
 
     private Model (){}
 
