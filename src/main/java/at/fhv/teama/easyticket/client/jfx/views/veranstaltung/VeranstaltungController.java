@@ -1,14 +1,12 @@
 package at.fhv.teama.easyticket.client.jfx.views.veranstaltung;
 
 import at.fhv.teama.easyticket.client.jfx.views.Model;
-import at.fhv.teama.easyticket.client.jfx.views.ticketverkauf.TicketverkaufController;
 import at.fhv.teama.easyticket.client.jfx.views.ticketverkauf.TicketverkaufView;
 import at.fhv.teama.easyticket.dto.ArtistDto;
 import at.fhv.teama.easyticket.dto.TicketDto;
 import at.fhv.teama.easyticket.dto.TicketState;
 import at.fhv.teama.easyticket.dto.VenueDto;
 import at.fhv.teama.easyticket.rmi.EasyTicketService;
-import com.airhacks.afterburner.injection.Injector;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -47,45 +45,115 @@ public class VeranstaltungController implements Initializable {
     private final EasyTicketService easyTicketService;
 
     //region Handlers
-
-    private final  EventHandler<ActionEvent> onFilterChanged = new EventHandler<ActionEvent>(){
+    //region FXML Declarations
+    @FXML
+    private AnchorPane Veranstaltungen_Table_Pane;
+    @FXML
+    private TableView<VenueDto> Veranstaltungen_Table;
+    //endregion
+    @FXML
+    private TableColumn<VenueDto, String> Veranstaltungen_Datum_Col;
+    @FXML
+    private TableColumn<VenueDto, String> Veranstaltungen_Bezeichnung_Col;
+    @FXML
+    private TableColumn<VenueDto, String> Veranstaltungen_Kuenstler_Col;
+    @FXML
+    private Button Veranstaltung_Verkaufen_Button;
+    @FXML
+    private AnchorPane Veranstaltung_Details_Pane;
+    @FXML
+    private TextField Veranstaltungen_Kuenstler_Label;
+    @FXML
+    private TextField Veranstaltungen_Bezeichnung_Label;
+    @FXML
+    private TextField Veranstaltungen_Ort_Label;
+    @FXML
+    private TextField Veranstaltungen_Datum_Label;
+    @FXML
+    private TextField Veranstaltungen_Genre_Label;
+    @FXML
+    private TextField Veranstaltungen_Verfügbar_Label;
+    @FXML
+    private TextField Veranstaltungen_EMail_Label;
+    @FXML
+    private AnchorPane Veranstaltungen_Filter_Pane;
+    @FXML
+    private TextField Veranstaltungen_Bezeichnung_Searchbar;
+    @FXML
+    private ChoiceBox<String> Veranstaltungen_Genre_Searchbar;
+    @FXML
+    private DatePicker Veranstaltungen_Datum_From;
+    @FXML
+    private TextField Veranstaltungen_Kuenstler_Searchbar;
+    @FXML
+    private DatePicker Veranstaltungen_Datum_To1;
+    @FXML
+    private Button Veranstaltung_Erstellen_Button;
+    @FXML
+    private Button Veranstaltung_Datum_From_Button;
+    @FXML
+    private Button Veranstaltung_Genre_Button;
+    @FXML
+    private Button Veranstaltung_Datum_To_Button;
+    @FXML
+    private Button Veranstaltung_Kue_Button;
+    @FXML
+    private Button Veranstaltung_Bez_Button;
+    //region Table and List Arrays and Sets
+    private ObservableList<VenueDto> _veranstaltungenGesamt;
+    private Set<VenueDto> _allVenues;
+    //endregion
+    private ObservableList<String> _GenresGesamt = FXCollections.observableArrayList();
+    private Set<String> _allGenres;
+    //region Filters and Formatters
+    private String _filterBezeichnung;
+    private String _filterKuenstler;
+    //endregion
+    private LocalDate _filterDatumFrom;
+    private LocalDate _filterDatumTo;
+    private String _filterGenre;
+    private final EventHandler<ActionEvent> onFilterChanged = new EventHandler<ActionEvent>() {
 
         @Override
         public void handle(final ActionEvent event) {
             updateFilterValues();
-            Set<VenueDto> filteredSet = easyTicketService.searchVenue(_filterBezeichnung, _filterGenre, _filterKuenstler,  LocalDateTime.of(_filterDatumFrom, LocalTime.now()), LocalDateTime.of(_filterDatumTo, LocalTime.now()));
+            Set<VenueDto> filteredSet = easyTicketService.searchVenue(_filterBezeichnung,
+                    _filterGenre,
+                    _filterKuenstler,
+                    _filterDatumFrom == null ? null : LocalDateTime.of(_filterDatumFrom, LocalTime.now()),
+                    _filterDatumTo == null ? null : LocalDateTime.of(_filterDatumTo, LocalTime.now()));
             populateVenueTable(filteredSet);
         }
     };
-
-    private final  EventHandler<ActionEvent> onDeleteFilterButtonPressed = new EventHandler<ActionEvent>(){
+    private final EventHandler<ActionEvent> onDeleteFilterButtonPressed = new EventHandler<ActionEvent>() {
 
         @Override
         public void handle(final ActionEvent event) {
-            if (event.getSource()==Veranstaltung_Bez_Button ){
+            if (event.getSource() == Veranstaltung_Bez_Button) {
                 Veranstaltungen_Bezeichnung_Searchbar.setText("");
             }
-            if (event.getSource()==Veranstaltung_Kue_Button ){
+            if (event.getSource() == Veranstaltung_Kue_Button) {
                 Veranstaltungen_Kuenstler_Searchbar.setText("");
             }
-            if (event.getSource()==Veranstaltung_Genre_Button ){
+            if (event.getSource() == Veranstaltung_Genre_Button) {
                 Veranstaltungen_Genre_Searchbar.getSelectionModel().clearSelection();
             }
-            if (event.getSource()==Veranstaltung_Datum_From_Button ){
+            if (event.getSource() == Veranstaltung_Datum_From_Button) {
                 Veranstaltungen_Datum_From.getEditor().clear();
                 Veranstaltungen_Datum_From.setValue(null);
             }
-            if (event.getSource()==Veranstaltung_Datum_To_Button ){
+            if (event.getSource() == Veranstaltung_Datum_To_Button) {
                 Veranstaltungen_Datum_To1.getEditor().clear();
                 Veranstaltungen_Datum_To1.setValue(null);
             }
             updateFilterValues();
-            Set<VenueDto> filteredSet = easyTicketService.searchVenue(_filterBezeichnung, _filterGenre, _filterKuenstler,  LocalDateTime.of(_filterDatumFrom, LocalTime.now()), LocalDateTime.of(_filterDatumTo, LocalTime.now()));
+            Set<VenueDto> filteredSet = easyTicketService.searchVenue(_filterBezeichnung, _filterGenre, _filterKuenstler, LocalDateTime.of(_filterDatumFrom, LocalTime.now()), LocalDateTime.of(_filterDatumTo, LocalTime.now()));
             populateVenueTable(filteredSet);
         }
     };
-
-    private final  EventHandler<ActionEvent> onBuyTicketclicked = new EventHandler<ActionEvent>(){
+    private String _format = "dd.MM.yyyy HH:mm:ss";
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern(_format);
+    private final EventHandler<ActionEvent> onBuyTicketclicked = new EventHandler<ActionEvent>() {
 
         @Override
         public void handle(final ActionEvent event) {
@@ -99,114 +167,10 @@ public class VeranstaltungController implements Initializable {
             updateGUI();
 
 
-
-
         }
     };
 
     //endregion
-
-    //region FXML Declarations
-    @FXML
-    private AnchorPane Veranstaltungen_Table_Pane;
-
-    @FXML
-    private TableView<VenueDto> Veranstaltungen_Table;
-
-    @FXML
-    private TableColumn<VenueDto, String> Veranstaltungen_Datum_Col;
-
-    @FXML
-    private TableColumn<VenueDto, String> Veranstaltungen_Bezeichnung_Col;
-
-    @FXML
-    private TableColumn<VenueDto, String> Veranstaltungen_Kuenstler_Col;
-
-    @FXML
-    private Button Veranstaltung_Verkaufen_Button;
-
-    @FXML
-    private AnchorPane Veranstaltung_Details_Pane;
-
-    @FXML
-    private TextField Veranstaltungen_Kuenstler_Label;
-
-    @FXML
-    private TextField Veranstaltungen_Bezeichnung_Label;
-
-    @FXML
-    private TextField Veranstaltungen_Ort_Label;
-
-    @FXML
-    private TextField Veranstaltungen_Datum_Label;
-
-    @FXML
-    private TextField Veranstaltungen_Genre_Label;
-
-    @FXML
-    private TextField Veranstaltungen_Verfügbar_Label;
-
-    @FXML
-    private TextField Veranstaltungen_EMail_Label;
-
-    @FXML
-    private AnchorPane Veranstaltungen_Filter_Pane;
-
-    @FXML
-    private TextField Veranstaltungen_Bezeichnung_Searchbar;
-
-    @FXML
-    private ChoiceBox<String> Veranstaltungen_Genre_Searchbar;
-
-    @FXML
-    private DatePicker Veranstaltungen_Datum_From;
-
-    @FXML
-    private TextField Veranstaltungen_Kuenstler_Searchbar;
-
-    @FXML
-    private DatePicker Veranstaltungen_Datum_To1;
-
-    @FXML
-    private Button Veranstaltung_Erstellen_Button;
-
-    @FXML
-    private Button Veranstaltung_Datum_From_Button;
-
-    @FXML
-    private Button Veranstaltung_Genre_Button;
-
-    @FXML
-    private Button Veranstaltung_Datum_To_Button;
-
-    @FXML
-    private Button Veranstaltung_Kue_Button;
-
-    @FXML
-    private Button Veranstaltung_Bez_Button;
-
-    //endregion
-
-    //region Table and List Arrays and Sets
-    private ObservableList<VenueDto> _veranstaltungenGesamt;
-    private Set<VenueDto> _allVenues;
-
-
-    private ObservableList<String> _GenresGesamt;
-    private Set<String> _allGenres;
-    //endregion
-
-    //region Filters and Formatters
-    private String _filterBezeichnung;
-    private String _filterKuenstler;
-    private LocalDate _filterDatumFrom;
-    private LocalDate _filterDatumTo;
-    private String _filterGenre;
-    private String _format = "dd.MM.yyyy HH:mm:ss";
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern(_format);
-
-    //endregion
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -229,7 +193,7 @@ public class VeranstaltungController implements Initializable {
                 super.updateItem(date, empty);
                 LocalDate today = LocalDate.now();
 
-                setDisable(empty || date.compareTo(today) < 0 );
+                setDisable(empty || date.compareTo(today) < 0);
             }
         });
         Veranstaltungen_Datum_To1.setDayCellFactory(picker -> new DateCell() {
@@ -237,7 +201,7 @@ public class VeranstaltungController implements Initializable {
                 super.updateItem(date, empty);
                 LocalDate today = LocalDate.now();
 
-                setDisable(empty || date.compareTo(today) < 0 );
+                setDisable(empty || date.compareTo(today) < 0);
             }
         });
 
@@ -265,7 +229,7 @@ public class VeranstaltungController implements Initializable {
 
     }
 
-    public void initVenues(){
+    public void initVenues() {
         _veranstaltungenGesamt = FXCollections.observableArrayList();
         _GenresGesamt = FXCollections.observableArrayList();
         _allVenues = easyTicketService.getAllVenues();
@@ -306,8 +270,8 @@ public class VeranstaltungController implements Initializable {
                 Veranstaltungen_Ort_Label.setText("-");
             }
 
-            if (countEmptySeats(newSelection) >0) {
-                Veranstaltungen_Verfügbar_Label.setText("Freie Plätze: "+countEmptySeats(newSelection)+"/"+newSelection.getTickets().size());
+            if (countEmptySeats(newSelection) > 0) {
+                Veranstaltungen_Verfügbar_Label.setText("Freie Plätze: " + countEmptySeats(newSelection) + "/" + newSelection.getTickets().size());
             } else {
                 Veranstaltungen_Verfügbar_Label.setText("AUSVERKAUFT");
             }
@@ -371,30 +335,28 @@ public class VeranstaltungController implements Initializable {
 
         Veranstaltungen_Genre_Label.setFocusTraversable(false);
         Veranstaltungen_Genre_Label.setMouseTransparent(true);
-
-
     }
 
-    private void populateVenueTable (Set<VenueDto> venues){
+    private void populateVenueTable(Set<VenueDto> venues) {
         _veranstaltungenGesamt.setAll(venues);
         Veranstaltungen_Table.setItems(_veranstaltungenGesamt);
     }
 
     private void populateGenreChoiceBoxU() {
-        _GenresGesamt.setAll(easyTicketService.getAllGenres());
+        Set<String> allGenres = easyTicketService.getAllGenres();
+        _GenresGesamt.setAll(allGenres);
         Veranstaltungen_Genre_Searchbar.setItems(_GenresGesamt);
     }
 
-    private void updateFilterValues(){
+    private void updateFilterValues() {
         _filterBezeichnung = Veranstaltungen_Bezeichnung_Searchbar.getText();
-        _filterKuenstler  = Veranstaltungen_Kuenstler_Searchbar.getText();
+        _filterKuenstler = Veranstaltungen_Kuenstler_Searchbar.getText();
         _filterDatumFrom = Veranstaltungen_Datum_From.getValue();
         _filterDatumTo = Veranstaltungen_Datum_To1.getValue();
         _filterGenre = Veranstaltungen_Genre_Searchbar.getValue();
     }
 
-    private int countEmptySeats (VenueDto venue) {
-
+    private int countEmptySeats(VenueDto venue) {
         AtomicInteger free = new AtomicInteger(0);
         Set<TicketDto> tickets = venue.getTickets();
 
@@ -407,7 +369,7 @@ public class VeranstaltungController implements Initializable {
         return free.intValue();
     }
 
-    private void updateGUI(){
+    private void updateGUI() {
         Veranstaltungen_Table.getSelectionModel().clearSelection();
         Veranstaltung_Verkaufen_Button.setDisable(true);
         initializeVeranstaltungTable();
@@ -418,10 +380,6 @@ public class VeranstaltungController implements Initializable {
         populateGenreChoiceBoxU();
 
     }
-
-
-
-
 
 
 }
