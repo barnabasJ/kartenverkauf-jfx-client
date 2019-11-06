@@ -147,7 +147,7 @@ public class VeranstaltungController implements Initializable {
                 Veranstaltungen_Datum_To1.setValue(null);
             }
             updateFilterValues();
-            Set<VenueDto> filteredSet = easyTicketService.searchVenue(_filterBezeichnung, _filterGenre, _filterKuenstler, LocalDateTime.of(_filterDatumFrom, LocalTime.now()), LocalDateTime.of(_filterDatumTo, LocalTime.now()));
+            Set<VenueDto> filteredSet = easyTicketService.searchVenue(_filterBezeichnung, _filterGenre, _filterKuenstler, _filterDatumFrom == null ? null : LocalDateTime.of(_filterDatumFrom, LocalTime.now()), _filterDatumTo == null ? null : LocalDateTime.of(_filterDatumTo, LocalTime.now()));
             populateVenueTable(filteredSet);
         }
     };
@@ -338,6 +338,8 @@ public class VeranstaltungController implements Initializable {
     }
 
     private void populateVenueTable(Set<VenueDto> venues) {
+        Veranstaltungen_Table.getItems().clear();
+        _veranstaltungenGesamt.clear();
         _veranstaltungenGesamt.setAll(venues);
         Veranstaltungen_Table.setItems(_veranstaltungenGesamt);
     }
@@ -371,6 +373,13 @@ public class VeranstaltungController implements Initializable {
 
     private void updateGUI() {
         Veranstaltungen_Table.getSelectionModel().clearSelection();
+        Veranstaltungen_Bezeichnung_Label.clear();
+        Veranstaltungen_Datum_Label.clear();
+        Veranstaltungen_Genre_Label.clear();
+        Veranstaltungen_Kuenstler_Label.clear();
+        Veranstaltungen_Ort_Label.clear();
+        Veranstaltungen_Verfügbar_Label.clear();
+        Veranstaltungen_EMail_Label.clear();
         Veranstaltung_Verkaufen_Button.setDisable(true);
         initializeVeranstaltungTable();
 
