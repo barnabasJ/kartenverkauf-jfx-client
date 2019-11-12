@@ -1,6 +1,7 @@
 package at.fhv.teama.easyticket.client.jfx.views.veranstaltung;
 
 import at.fhv.teama.easyticket.client.jfx.views.Model;
+import at.fhv.teama.easyticket.client.jfx.views.Warenkorb.WarenkorbView;
 import at.fhv.teama.easyticket.client.jfx.views.ticketverkauf.TicketverkaufView;
 import at.fhv.teama.easyticket.dto.ArtistDto;
 import at.fhv.teama.easyticket.dto.TicketDto;
@@ -44,13 +45,11 @@ public class VeranstaltungController implements Initializable {
 
     private final EasyTicketService easyTicketService;
 
-    //region Handlers
     //region FXML Declarations
     @FXML
     private AnchorPane Veranstaltungen_Table_Pane;
     @FXML
     private TableView<VenueDto> Veranstaltungen_Table;
-    //endregion
     @FXML
     private TableColumn<VenueDto, String> Veranstaltungen_Datum_Col;
     @FXML
@@ -88,7 +87,7 @@ public class VeranstaltungController implements Initializable {
     @FXML
     private DatePicker Veranstaltungen_Datum_To1;
     @FXML
-    private Button Veranstaltung_Erstellen_Button;
+    private Button Warenkorb_Button;
     @FXML
     private Button Veranstaltung_Datum_From_Button;
     @FXML
@@ -99,19 +98,28 @@ public class VeranstaltungController implements Initializable {
     private Button Veranstaltung_Kue_Button;
     @FXML
     private Button Veranstaltung_Bez_Button;
+
+    //endregion
+
     //region Table and List Arrays and Sets
     private ObservableList<VenueDto> _veranstaltungenGesamt;
     private Set<VenueDto> _allVenues;
     //endregion
     private ObservableList<String> _GenresGesamt = FXCollections.observableArrayList();
     private Set<String> _allGenres;
+
     //region Filters and Formatters
     private String _filterBezeichnung;
     private String _filterKuenstler;
     //endregion
+
     private LocalDate _filterDatumFrom;
     private LocalDate _filterDatumTo;
     private String _filterGenre;
+
+    private Model model = Model.getInstance();
+
+    //region Handlers
     private final EventHandler<ActionEvent> onFilterChanged = new EventHandler<ActionEvent>() {
 
         @Override
@@ -125,6 +133,22 @@ public class VeranstaltungController implements Initializable {
             populateVenueTable(filteredSet);
         }
     };
+
+    private final EventHandler<ActionEvent> onWarenkorbClicked = new EventHandler<ActionEvent>() {
+
+        @Override
+        public void handle(final ActionEvent event) {
+
+            Stage newWindow = new Stage();
+            newWindow.initModality(Modality.APPLICATION_MODAL);
+            Scene WarenkorbScene = new Scene(new WarenkorbView().getView());
+            newWindow.setScene(WarenkorbScene);
+            newWindow.showAndWait();
+            updateGUI();
+
+        }
+    };
+
     private final EventHandler<ActionEvent> onDeleteFilterButtonPressed = new EventHandler<ActionEvent>() {
 
         @Override
@@ -170,6 +194,8 @@ public class VeranstaltungController implements Initializable {
         }
     };
 
+
+
     //endregion
 
     @Override
@@ -177,8 +203,9 @@ public class VeranstaltungController implements Initializable {
 
         setLabelsDisabled();
         Veranstaltung_Verkaufen_Button.setDisable(true);
-        initializeVeranstaltungTable();
 
+        initializeVeranstaltungTable();
+        initWarenkorb();
         initVenues();
 
         log.info("Venues ================");
@@ -186,6 +213,7 @@ public class VeranstaltungController implements Initializable {
 
         populateVenueTable(_allVenues);
         populateGenreChoiceBoxU();
+
 
         //region Only FutureDates
         Veranstaltungen_Datum_From.setDayCellFactory(picker -> new DateCell() {
@@ -223,6 +251,7 @@ public class VeranstaltungController implements Initializable {
         Veranstaltung_Datum_To_Button.setOnAction(onDeleteFilterButtonPressed);
 
         Veranstaltung_Verkaufen_Button.setOnAction(onBuyTicketclicked);
+        Warenkorb_Button.setOnAction(onWarenkorbClicked);
 
         //endregionMs
 
@@ -382,13 +411,22 @@ public class VeranstaltungController implements Initializable {
         Veranstaltungen_EMail_Label.clear();
         Veranstaltung_Verkaufen_Button.setDisable(true);
         initializeVeranstaltungTable();
-
+        initWarenkorb();
         initVenues();
 
         populateVenueTable(_allVenues);
         populateGenreChoiceBoxU();
-
     }
+
+    public void initWarenkorb(){
+        if (model.getSelectedPerson()!= null){
+            Warenkorb_Button.setDisable(false);
+        } else {
+            Warenkorb_Button.setDisable(true);
+        }
+    }
+
+
 
 
 }

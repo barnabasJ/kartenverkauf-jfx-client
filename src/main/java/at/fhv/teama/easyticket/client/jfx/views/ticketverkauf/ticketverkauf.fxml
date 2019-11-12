@@ -14,20 +14,20 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="462.0" prefWidth="666.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.fhv.teama.easyticket.client.jfx.views.ticketverkauf.TicketverkaufController">
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="462.0" prefWidth="705.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.fhv.teama.easyticket.client.jfx.views.ticketverkauf.TicketverkaufController">
    <children>
       <Text layoutX="14.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sitzplatzwahl" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="100.59765625">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <ChoiceBox fx:id="kunden_ChoiceBar" layoutX="338.0" layoutY="51.0" prefHeight="27.0" prefWidth="281.0" AnchorPane.rightAnchor="47.0" AnchorPane.topAnchor="51.0" />
+      <ChoiceBox fx:id="kunden_ChoiceBar" layoutX="340.0" layoutY="52.0" prefHeight="27.0" prefWidth="281.0" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="52.0" />
       <Text layoutX="14.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Veranstaltung" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="17.73046875">
          <font>
             <Font size="22.0" />
          </font>
       </Text>
-      <Text layoutX="338.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kunde" AnchorPane.rightAnchor="267.8330078125" AnchorPane.topAnchor="16.73046875">
+      <Text layoutX="340.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kunde" AnchorPane.rightAnchor="305.8330078125" AnchorPane.topAnchor="16.73046875">
          <font>
             <Font size="22.0" />
          </font>
@@ -83,32 +83,32 @@
             </GridPane>
          </content>
       </ScrollPane>
-      <Text layoutX="338.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zusammenfassung" AnchorPane.rightAnchor="182.27734375" AnchorPane.topAnchor="100.59765625">
+      <Text layoutX="341.73046875" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zusammenfassung" AnchorPane.rightAnchor="218.546875" AnchorPane.topAnchor="101.59765625">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
       <ListView fx:id="TicketList" layoutX="338.0" layoutY="126.0" prefHeight="247.0" prefWidth="313.0" AnchorPane.bottomAnchor="89.0" AnchorPane.leftAnchor="338.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="126.0" />
-      <Group layoutX="375.0" layoutY="284.0" AnchorPane.bottomAnchor="54.0" AnchorPane.rightAnchor="16.0">
+      <Group layoutX="377.0" layoutY="390.0" AnchorPane.bottomAnchor="56.0" AnchorPane.rightAnchor="16.0">
          <children>
-            <Text layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gesamtsumme">
+            <Text layoutX="-37.0" layoutY="9.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gesamtsumme">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
-            <Label fx:id="sum_field" layoutX="225.0" prefHeight="23.0" prefWidth="88.0" text="0,00 €" textAlignment="RIGHT">
+            <Label fx:id="sum_field" layoutX="225.0" layoutY="-7.0" prefHeight="23.0" prefWidth="88.0" text="0,00 €" textAlignment="RIGHT">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
          </children>
       </Group>
-      <Button fx:id="Verkaufen_Button" layoutX="509.0" layoutY="323.0" mnemonicParsing="false" text="Tickets verkaufen" AnchorPane.bottomAnchor="9.0" AnchorPane.rightAnchor="16.0" />
-      <Button fx:id="Reservieren_Button" layoutX="337.0" layoutY="323.0" mnemonicParsing="false" text="Tickets reservieren" AnchorPane.bottomAnchor="9.0" AnchorPane.rightAnchor="182.0" />
       <Label fx:id="venue_label" layoutX="16.0" layoutY="65.0" text="Gewaehlte Veransaltung" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="52.0">
          <font>
             <Font size="17.0" />
          </font></Label>
-      <Button fx:id="DeletePersonButton" layoutX="624.0" layoutY="51.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" text="X" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="51.0" />
+      <Button fx:id="DeletePersonButton" layoutX="627.0" layoutY="52.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" text="X" AnchorPane.rightAnchor="52.0" AnchorPane.topAnchor="52.0" />
+      <Button fx:id="GoToWarenkorb_Button" layoutX="341.0" layoutY="419.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="109.0" text="Zum Warenkorb" />
+      <Button fx:id="Verkaufen_Button" layoutX="472.0" layoutY="419.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="214.0" text="Tickets kaufen" />
    </children>
 </AnchorPane>

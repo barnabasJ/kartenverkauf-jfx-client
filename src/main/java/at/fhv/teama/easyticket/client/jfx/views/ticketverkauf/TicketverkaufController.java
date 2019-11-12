@@ -2,6 +2,7 @@ package at.fhv.teama.easyticket.client.jfx.views.ticketverkauf;
 
 
 import at.fhv.teama.easyticket.client.jfx.views.Model;
+import at.fhv.teama.easyticket.client.jfx.views.Warenkorb.WarenkorbView;
 import at.fhv.teama.easyticket.dto.PersonDto;
 import at.fhv.teama.easyticket.dto.TicketDto;
 import at.fhv.teama.easyticket.dto.TicketState;
@@ -14,21 +15,19 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Array;
 import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.*;
 
 @Component
@@ -77,16 +76,16 @@ public class TicketverkaufController implements Initializable {
     private ListView<TicketDto> TicketList;
 
     @FXML
-    private Button Verkaufen_Button;
-
-    @FXML
-    private Button Reservieren_Button;
-
-    @FXML
     private Label venue_label;
 
     @FXML
     private Label sum_field;
+    @FXML
+    private Button Verkaufen_Button;
+
+
+    @FXML
+    private Button GoToWarenkorb_Button;
 
     //endregion
 
@@ -145,8 +144,9 @@ public class TicketverkaufController implements Initializable {
                 alert.setTitle("Glückwunsch");
                 alert.setHeaderText("Erfolgreicher Kauf");
                 alert.setContentText("Glückwunsch, ihre "+allTickets.size()+" Tickets wurden erfolgreich gebucht.");
+
                 alert.showAndWait();
-                model.setSelectedPerson(null);
+                model.clearAllFields();
                 Node source = (Node) event.getSource();
                 Stage stage = (Stage) source.getScene().getWindow();
                 stage.close();
@@ -162,7 +162,7 @@ public class TicketverkaufController implements Initializable {
                 alert.setContentText(retTickets.size()+" ihrer gewünschten Ticket/s konnten nicht gebucht werden.\n"+content);
 
                 alert.showAndWait();
-                model.setSelectedPerson(null);
+                model.clearAllFields();
                 Node source = (Node) event.getSource();
                 Stage stage = (Stage) source.getScene().getWindow();
                 stage.close();
@@ -172,10 +172,16 @@ public class TicketverkaufController implements Initializable {
         }
     };
 
+
     private final EventHandler<ActionEvent> onCustomerChanged = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
             model.setSelectedPerson(kunden_ChoiceBar.getSelectionModel().getSelectedItem());
+            if (model.getSelectedPerson()!= null){
+                initWarenkorb();
+                Verkaufen_Button.setText("Tickets zum Warenkorb hinzugüfen");
+                Verkaufen_Button.setOnAction(onAddToShoppingCartClicked);
+            }
         }
     };
 
@@ -184,6 +190,74 @@ public class TicketverkaufController implements Initializable {
         public void handle(ActionEvent event) {
             kunden_ChoiceBar.getSelectionModel().clearSelection();
             model.setSelectedPerson(null);
+            Verkaufen_Button.setText("Tickets verkaufen");
+            Verkaufen_Button.setOnAction(onBuyTicketClicked);
+        }
+    };
+
+    private final EventHandler<ActionEvent> onAddToShoppingCartClicked = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            if (model.getSelectedPerson()!=null){
+                for (TicketDto t: allTickets){
+                    t.setPerson(model.getSelectedPerson());
+                }
+            }
+            Set<TicketDto> retTickets = easyTicketService.reserveTickets(allTickets);
+            if (retTickets.size()== 0 ){
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Glückwunsch");
+                alert.setHeaderText("Erfolgreiche Buchung");
+                alert.setContentText("Glückwunsch, ihre "+allTickets.size()+" Tickets wurden erfolgreich zum Warenkorb hinzugefügt.");
+                model.addShoppingCartTickets(allTickets);
+                alert.showAndWait();
+
+                Stage newWindow = new Stage();
+                newWindow.initModality(Modality.APPLICATION_MODAL);
+                Scene WarenkorbScene = new Scene(new WarenkorbView().getView());
+                newWindow.setScene(WarenkorbScene);
+                newWindow.showAndWait();
+
+                Node source = (Node) event.getSource();
+                Stage stage = (Stage) source.getScene().getWindow();
+                stage.close();
+
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Achtung");
+                alert.setHeaderText(retTickets.size()+" Ticket/s konnten nicht zum Warenkorb hinzugefügt werden.");
+                String content = new String();
+                for (TicketDto t : retTickets){
+                    content = content+" Ticket: "+t.getX()+"/"+t.getY()+"\n";
+                }
+                alert.setContentText(retTickets.size()+" ihrer gewünschten Ticket/s konnten nicht zum Warenkorb hinzugefügt werden werden.\n"+content);
+                alert.showAndWait();
+
+                Stage newWindow = new Stage();
+                newWindow.initModality(Modality.APPLICATION_MODAL);
+                Scene WarenkorbScene = new Scene(new WarenkorbView().getView());
+                newWindow.setScene(WarenkorbScene);
+                newWindow.showAndWait();
+
+                Node source = (Node) event.getSource();
+                Stage stage = (Stage) source.getScene().getWindow();
+                stage.close();
+            }
+        }
+    };
+
+    private final EventHandler<ActionEvent> onWarenkorbClicked = new EventHandler<ActionEvent>() {
+
+        @Override
+        public void handle(final ActionEvent event) {
+
+            Stage newWindow = new Stage();
+            newWindow.initModality(Modality.APPLICATION_MODAL);
+            Scene WarenkorbScene = new Scene(new WarenkorbView().getView());
+            newWindow.setScene(WarenkorbScene);
+            newWindow.showAndWait();
+
         }
     };
 
@@ -196,7 +270,7 @@ public class TicketverkaufController implements Initializable {
         disableCategoryButtons();
         venue = model.getSelectedVenue();
         initVenueLabel();
-
+        initWarenkorb();
         initPersons();
         kunden_ChoiceBar.setOnAction(onCustomerChanged);
 
@@ -205,8 +279,9 @@ public class TicketverkaufController implements Initializable {
 
         generateSeatButtons();
 
-        Verkaufen_Button.setOnAction(onBuyTicketClicked);
+        GoToWarenkorb_Button.setOnAction(onWarenkorbClicked);
         DeletePersonButton.setOnAction(onCustomerDeleteChanged);
+
 
     }
 
@@ -301,6 +376,14 @@ public class TicketverkaufController implements Initializable {
         allPersons = easyTicketService.getAllCustomer();
         PersonGesamt.setAll(allPersons);
         kunden_ChoiceBar.setItems(PersonGesamt);
+        if(model.getSelectedPerson()!= null){
+            kunden_ChoiceBar.getSelectionModel().select(model.getSelectedPerson());
+            Verkaufen_Button.setOnAction(onAddToShoppingCartClicked);
+            Verkaufen_Button.setText("Tickets zum Warenkorb hinzufügen");
+        } else {
+            Verkaufen_Button.setOnAction(onBuyTicketClicked);
+            Verkaufen_Button.setText("Tickets verkaufen");
+        }
     }
 
     public void getSumAndUpdateField(){
@@ -327,6 +410,16 @@ public class TicketverkaufController implements Initializable {
         allTickets.clear();
         TicketsGewaehltGesamt.clear();
         TicketList.getItems().clear();
+    }
+
+
+
+    public void initWarenkorb(){
+        if (model.getSelectedPerson()!= null){
+            GoToWarenkorb_Button.setDisable(false);
+        } else {
+            GoToWarenkorb_Button.setDisable(true);
+        }
     }
 
 
