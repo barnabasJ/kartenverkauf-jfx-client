@@ -122,6 +122,13 @@ public class TicketverkaufController implements Initializable {
                 allTickets.remove(ticket);
                 //t.setDisable(false);
             }
+            if(allTickets.size()==0){
+                Verkaufen_Button.setDisable(true);
+                GoToWarenkorb_Button.setDisable(true);
+            } else {
+                Verkaufen_Button.setDisable(false);
+                GoToWarenkorb_Button.setDisable(false);
+            }
             populateTicketList();
             getSumAndUpdateField();
         }
@@ -171,7 +178,6 @@ public class TicketverkaufController implements Initializable {
 
         }
     };
-
 
     private final EventHandler<ActionEvent> onCustomerChanged = new EventHandler<ActionEvent>() {
         @Override
@@ -281,6 +287,9 @@ public class TicketverkaufController implements Initializable {
 
         GoToWarenkorb_Button.setOnAction(onWarenkorbClicked);
         DeletePersonButton.setOnAction(onCustomerDeleteChanged);
+
+        Verkaufen_Button.setDisable(true);
+        GoToWarenkorb_Button.setDisable(true);
 
 
     }
@@ -394,7 +403,6 @@ public class TicketverkaufController implements Initializable {
         sum_field.setText(sum/100+" €");
     }
 
-
     public static Comparator<TicketDto> TicketComp = (t1, t2) -> {
 
         int tcor1 = t1.getX()*100+t1.getY();
@@ -411,8 +419,6 @@ public class TicketverkaufController implements Initializable {
         TicketsGewaehltGesamt.clear();
         TicketList.getItems().clear();
     }
-
-
 
     public void initWarenkorb(){
         if (model.getSelectedPerson()!= null){

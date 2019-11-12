@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="443.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.fhv.teama.easyticket.client.jfx.views.Warenkorb.WarenkorbController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="443.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.fhv.teama.easyticket.client.jfx.views.Warenkorb.WarenkorbController">
    <children>
       <Text layoutX="18.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Warenkorb">
          <font>
@@ -28,6 +28,9 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="Person_Label" layoutX="186.0" layoutY="28.0" prefHeight="17.0" prefWidth="239.0" text="Person" />
+      <Label fx:id="Person_Label" layoutX="186.0" layoutY="18.0" prefHeight="17.0" prefWidth="239.0" text="Person">
+         <font>
+            <Font size="19.0" />
+         </font></Label>
    </children>
 </AnchorPane>
