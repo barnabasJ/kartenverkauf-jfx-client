@@ -1,5 +1,6 @@
 package at.fhv.teama.easyticket.client.jfx;
 
+import at.fhv.teama.easyticket.client.jfx.views.login.LoginView;
 import at.fhv.teama.easyticket.client.jfx.views.main.MainView;
 import com.airhacks.afterburner.injection.Injector;
 import javafx.application.Application;
@@ -34,7 +35,7 @@ public class EasyTicketJfxClientApplication extends Application {
     }
 
     @Override
-    public void init() throws Exception {
+    public void init() {
         setPolicy();
         SpringApplicationBuilder builder = new SpringApplicationBuilder(EasyTicketJfxClientApplication.class);
         context = builder.run();
@@ -43,7 +44,7 @@ public class EasyTicketJfxClientApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        MainView view = new MainView();
+        LoginView view = new LoginView();
         Scene scene = new Scene(view.getView());
 
         Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
@@ -57,7 +58,7 @@ public class EasyTicketJfxClientApplication extends Application {
     }
 
     @Override
-    public void stop() throws Exception {
+    public void stop() {
         context.close();
     }
 }
