@@ -70,10 +70,10 @@ public class LoginController implements Initializable {
     sc.setAuthentication(new UsernamePasswordAuthenticationToken(uname, pword));
     log.info("Trying to log in as " + uname);
     try {
-      easyTicketService.login(uname, pword);
-      return true;
+      return easyTicketService.login(uname, pword);
     } catch (Exception e) {
       e.printStackTrace();
+      SecurityContextHolder.clearContext();
       return false;
     }
   }
