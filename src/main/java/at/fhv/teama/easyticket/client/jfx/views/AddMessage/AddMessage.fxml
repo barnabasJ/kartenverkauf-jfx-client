@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="282.0" prefWidth="538.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.fhv.teama.easyticket.client.jfx.views.AddMessage.AddMessageController">
+   <children>
+      <Text layoutX="14.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Neue Nachricht erstellen" wrappingWidth="374.9228515625">
+         <font>
+            <Font size="34.0" />
+         </font>
+      </Text>
+      <TextArea fx:id="Message_Area" layoutX="14.0" layoutY="69.0" prefHeight="200.0" prefWidth="353.0" />
+      <Button fx:id="Publish_Mess_Button" layoutX="373.0" layoutY="169.0" mnemonicParsing="false" text="Nachricht veröffentlichen" />
+      <ChoiceBox fx:id="Genre_ChoiceBox" layoutX="373.0" layoutY="128.0" prefHeight="27.0" prefWidth="156.0" />
+   </children>
+</AnchorPane>

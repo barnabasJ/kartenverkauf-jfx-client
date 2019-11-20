@@ -118,8 +118,6 @@ public class WarenkorbController implements Initializable {
         @Override
         public void handle(final ActionEvent event) {
 
-            Set<TicketDto> retTickets = easyTicketService.reserveTickets((model.getShoppingCartTickets()));
-            if (retTickets.size()== 0 ){
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Glückwunsch");
@@ -132,24 +130,6 @@ public class WarenkorbController implements Initializable {
                 Node source = (Node) event.getSource();
                 Stage stage = (Stage) source.getScene().getWindow();
                 stage.close();
-
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Achtung");
-                alert.setHeaderText(retTickets.size()+" Ticket/s konnten nicht reserviert werden.");
-                String content = new String();
-                for (TicketDto t : retTickets){
-                    content = content+" Ticket: "+t.getX()+"/"+t.getY()+"\n";
-                }
-                alert.setContentText(retTickets.size()+" ihrer gewünschten Ticket/s konnten nicht resreviert werden.\n"+content);
-
-                alert.showAndWait();
-                model.clearAllFields();
-                clearAllFields();
-                Node source = (Node) event.getSource();
-                Stage stage = (Stage) source.getScene().getWindow();
-                stage.close();
-            }
 
         }
     };
