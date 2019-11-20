@@ -70,6 +70,7 @@ public class AddMessageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Publish_Mess_Button.setOnAction(onAddMessageButtonClicked);
         Publish_Mess_Button.setDisable(true);
         Genre_ChoiceBox.setOnAction(onGenreChanged);
         initChoiceBox();
