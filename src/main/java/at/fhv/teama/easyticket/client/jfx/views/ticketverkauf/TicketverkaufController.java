@@ -240,12 +240,6 @@ public class TicketverkaufController implements Initializable {
                 alert.setContentText(retTickets.size()+" ihrer gewünschten Ticket/s konnten nicht zum Warenkorb hinzugefügt werden werden.\n"+content);
                 alert.showAndWait();
 
-                Stage newWindow = new Stage();
-                newWindow.initModality(Modality.APPLICATION_MODAL);
-                Scene WarenkorbScene = new Scene(new WarenkorbView().getView());
-                newWindow.setScene(WarenkorbScene);
-                newWindow.showAndWait();
-
                 Node source = (Node) event.getSource();
                 Stage stage = (Stage) source.getScene().getWindow();
                 stage.close();

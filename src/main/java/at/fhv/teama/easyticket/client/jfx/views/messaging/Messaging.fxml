@@ -24,7 +24,7 @@
         </columns>
       </TableView>
       <Label fx:id="Sel_Message_Label" focusTraversable="false" layoutX="14.0" layoutY="389.0" prefHeight="176.0" prefWidth="386.0" style="-fx-border-color: #009999;" text="Ausgewählte Nachricht" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="14.0" />
-      <Group layoutX="438.0" layoutY="421.0" AnchorPane.bottomAnchor="49.0" AnchorPane.leftAnchor="437.0673828125" AnchorPane.rightAnchor="111.9326171875" AnchorPane.topAnchor="421.0">
+      <Group layoutX="438.0" layoutY="421.0" AnchorPane.bottomAnchor="49.0" AnchorPane.rightAnchor="111.9326171875">
          <children>
             <CheckBox fx:id="System_CB" mnemonicParsing="false" selected="true" text="System" />
             <CheckBox fx:id="Konzerte_CB" layoutY="22.0" mnemonicParsing="false" selected="true" text="Konzerte" />

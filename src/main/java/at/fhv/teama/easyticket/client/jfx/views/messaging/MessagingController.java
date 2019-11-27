@@ -88,6 +88,7 @@ public class MessagingController implements Initializable {
             Scene WarenkorbScene = new Scene(new AddMessageView().getView());
             newWindow.setScene(WarenkorbScene);
             newWindow.showAndWait();
+            //updateTable
         }};
 
     @Override
