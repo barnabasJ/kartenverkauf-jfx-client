@@ -117,7 +117,7 @@ public class VeranstaltungController implements Initializable {
     private LocalDate _filterDatumTo;
     private String _filterGenre;
 
-    private Model model = Model.getInstance();
+    private final Model model;
 
     //region Handlers
     private final EventHandler<ActionEvent> onFilterChanged = new EventHandler<ActionEvent>() {
@@ -183,8 +183,7 @@ public class VeranstaltungController implements Initializable {
         public void handle(final ActionEvent event) {
             Stage newWindow = new Stage();
             newWindow.initModality(Modality.APPLICATION_MODAL);
-            Model m = Model.getInstance();
-            m.setSelectedVenue(Veranstaltungen_Table.getSelectionModel().selectedItemProperty().getValue());
+            model.setSelectedVenue(Veranstaltungen_Table.getSelectionModel().selectedItemProperty().getValue());
             Scene buyTicketScene = new Scene(new TicketverkaufView().getView());
             newWindow.setScene(buyTicketScene);
             newWindow.showAndWait();

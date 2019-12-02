@@ -100,7 +100,7 @@ public class TicketverkaufController implements Initializable {
     ArrayList<ToggleButton> buttons = new ArrayList<>();
 
     private final EasyTicketService easyTicketService;
-    private Model model= Model.getInstance();
+    private final Model model;
     private VenueDto venue ;
 
 

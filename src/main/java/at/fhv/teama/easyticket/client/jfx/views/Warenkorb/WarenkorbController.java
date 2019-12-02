@@ -54,7 +54,7 @@ public class WarenkorbController implements Initializable {
     private ArrayList<TicketDto> cartTickets = new ArrayList<>();
     private ObservableList<TicketDto> cartTicketsObs = FXCollections.observableArrayList();
 
-    private Model model = Model.getInstance();
+    private final Model model;
     private final EasyTicketService easyTicketService;
 
 
