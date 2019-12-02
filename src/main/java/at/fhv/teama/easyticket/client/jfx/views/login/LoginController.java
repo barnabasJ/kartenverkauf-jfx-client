@@ -1,5 +1,6 @@
 package at.fhv.teama.easyticket.client.jfx.views.login;
 
+import at.fhv.teama.easyticket.client.jfx.views.Model;
 import at.fhv.teama.easyticket.client.jfx.views.main.MainView;
 import at.fhv.teama.easyticket.rmi.EasyTicketService;
 import javafx.event.ActionEvent;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Component;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 @Slf4j
 @Component
@@ -29,6 +31,7 @@ import java.util.ResourceBundle;
 @RequiredArgsConstructor
 public class LoginController implements Initializable {
   private final EasyTicketService easyTicketService;
+  private final Model model;
   @FXML private TextField tfUsername;
   @FXML private PasswordField pfPassword;
   @FXML private Button btLogin;
@@ -70,7 +73,12 @@ public class LoginController implements Initializable {
     sc.setAuthentication(new UsernamePasswordAuthenticationToken(uname, pword));
     log.info("Trying to log in as " + uname);
     try {
-      return easyTicketService.login(uname, pword);
+      Set<String> roles = easyTicketService.login(uname, pword);
+      if (roles.size() > 0) {
+        model.setCurrentUser(new User(uname, roles));
+        return true;
+      }
+      return false;
     } catch (Exception e) {
       e.printStackTrace();
       SecurityContextHolder.clearContext();
