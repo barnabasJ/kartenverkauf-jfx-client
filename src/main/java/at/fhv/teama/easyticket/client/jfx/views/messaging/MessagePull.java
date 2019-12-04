@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Slf4j
@@ -16,17 +15,17 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class MessagePull {
 
-    private Model model= Model.getInstance();
-    private final EasyTicketService easyTicketService;
+  private final Model model;
+  private final EasyTicketService easyTicketService;
 
-
-    @Scheduled(fixedRate = 500)
-    public void poll() {
-        log.info("Polling");
-        Set<MessageDto> messageDtos = easyTicketService.getAllUnreadMessages(model.getCurrentUser().getUsername());
-        int num = messageDtos.size();
-        model.updateMessagingTabDescription(num);
-
+  @Scheduled(fixedRate = 500)
+  public void poll() {
+    log.info("Polling");
+    if (model.getCurrentUser() != null) {
+      Set<MessageDto> messageDtos =
+          easyTicketService.getAllUnreadMessages(model.getCurrentUser().getUsername());
+      int num = messageDtos != null ? messageDtos.size() : 0;
+      model.updateMessagingTabDescription(num);
     }
+  }
 }
-

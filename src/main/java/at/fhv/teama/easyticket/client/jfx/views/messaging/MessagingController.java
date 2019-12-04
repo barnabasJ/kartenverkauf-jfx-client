@@ -77,7 +77,7 @@ public class MessagingController implements Initializable {
 
     //endregion
 
-    private Model model = Model.getInstance();
+    private final Model model;
     private final EasyTicketService easyTicketService;
     private ObservableList<MessageDto> MessagesGesamt = FXCollections.observableArrayList();
     private Set<MessageDto> allMessages = new HashSet<>();
@@ -118,8 +118,10 @@ public class MessagingController implements Initializable {
         MessagesGesamt.clear();
         Messages_Table.getItems().clear();
         allMessages = easyTicketService.getAllUnreadMessages(model.getCurrentUser().getUsername());
-        MessagesGesamt.addAll(allMessages);
-        Messages_Table.setItems(MessagesGesamt);
+        if (allMessages != null) {
+          MessagesGesamt.addAll(allMessages);
+          Messages_Table.setItems(MessagesGesamt);
+        }
     }
 
     public void initMessageTable(){
@@ -143,6 +145,7 @@ public class MessagingController implements Initializable {
         if(newSelection!=null){
             Sel_Message_Label.setText(newSelection.getTopic() +"\n"+newSelection.getContent());
             easyTicketService.acknowledgeMessage((String) newSelection.getId());
+            /*
             Parent parent = model.getMainScene().getRoot();
             ObservableList<Node> nodes = ((VBox)parent).getChildren();
             Node pane = nodes.get(1);
@@ -151,6 +154,7 @@ public class MessagingController implements Initializable {
             int old = Integer.parseInt(tab.getText().replaceAll("[\\D]", ""));
             int newv = old--;
             tab.setText("Nachrichten ("+newv+")");
+             */
         }
     }
 }
