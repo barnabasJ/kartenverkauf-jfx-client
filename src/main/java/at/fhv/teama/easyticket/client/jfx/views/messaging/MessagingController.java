@@ -15,9 +15,12 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +31,7 @@ import org.springframework.stereotype.Component;
 
 import java.net.URL;
 import java.sql.BatchUpdateException;
+import java.text.NumberFormat;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -139,6 +143,14 @@ public class MessagingController implements Initializable {
         if(newSelection!=null){
             Sel_Message_Label.setText(newSelection.getTopic() +"\n"+newSelection.getContent());
             easyTicketService.acknowledgeMessage((String) newSelection.getId());
+            Parent parent = model.getMainScene().getRoot();
+            ObservableList<Node> nodes = ((VBox)parent).getChildren();
+            Node pane = nodes.get(1);
+            ObservableList<Node> children= ((AnchorPane)pane).getChildren();
+            Tab tab = ((TabPane)children).getTabs().get(3);
+            int old = Integer.parseInt(tab.getText().replaceAll("[\\D]", ""));
+            int newv = old--;
+            tab.setText("Nachrichten ("+newv+")");
         }
     }
 }
