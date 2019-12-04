@@ -1,6 +1,7 @@
 package at.fhv.teama.easyticket.client.jfx.views.AddMessage;
 
 import at.fhv.teama.easyticket.client.jfx.views.messaging.MessagingController;
+import at.fhv.teama.easyticket.dto.MessageDto;
 import at.fhv.teama.easyticket.dto.PersonDto;
 import at.fhv.teama.easyticket.rmi.EasyTicketService;
 import javafx.collections.FXCollections;
@@ -11,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
@@ -38,6 +40,9 @@ public class AddMessageController implements Initializable {
     private Button Publish_Mess_Button;
 
     @FXML
+    private CheckBox urlCB;
+
+    @FXML
     private ChoiceBox<String> Genre_ChoiceBox;
 
 
@@ -50,7 +55,14 @@ public class AddMessageController implements Initializable {
         @Override
         public void handle(final ActionEvent event) {
             if((Genre_ChoiceBox.getSelectionModel().getSelectedItem()!= null )&&(Message_Area.getText()!=null)||(Message_Area.getText()!="")){
-                //puplish new message
+                if(urlCB.isSelected()){
+                    easyTicketService.publishFeed(Message_Area.getText(), Genre_ChoiceBox.getValue());
+                } else {
+                    MessageDto m = new MessageDto();
+                    m.setContent(Message_Area.getText());
+                    m.setTopic(Genre_ChoiceBox.getValue());
+                    easyTicketService.publishMessage(m);
+                }
                 Node source = (Node) event.getSource();
                 Stage stage = (Stage) source.getScene().getWindow();
                 stage.close();

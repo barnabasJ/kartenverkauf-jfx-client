@@ -1,7 +1,9 @@
 package at.fhv.teama.easyticket.client.jfx.views.messaging;
 
 import at.fhv.teama.easyticket.client.jfx.views.AddMessage.AddMessageView;
+import at.fhv.teama.easyticket.client.jfx.views.Model;
 import at.fhv.teama.easyticket.client.jfx.views.Warenkorb.WarenkorbView;
+import at.fhv.teama.easyticket.dto.MessageDto;
 import at.fhv.teama.easyticket.dto.PersonDto;
 import at.fhv.teama.easyticket.dto.VenueDto;
 import at.fhv.teama.easyticket.rmi.EasyTicketService;
@@ -43,13 +45,13 @@ public class MessagingController implements Initializable {
     private Button New_Message_Button;
 
     @FXML
-    private TableView<PersonDto> Messages_Table;
+    private TableView<MessageDto> Messages_Table;
 
     @FXML
-    private TableColumn<PersonDto, String> Genre_Col;
+    private TableColumn<MessageDto, String> Genre_Col;
 
     @FXML
-    private TableColumn<PersonDto, String> Content_Col;
+    private TableColumn<MessageDto, String> Content_Col;
 
     @FXML
     private Label Sel_Message_Label;
@@ -71,9 +73,10 @@ public class MessagingController implements Initializable {
 
     //endregion
 
+    private Model model = Model.getInstance();
     private final EasyTicketService easyTicketService;
-    private ObservableList<PersonDto> MessagesGesamt = FXCollections.observableArrayList();
-    private Set<PersonDto> allMessages = new HashSet<>();
+    private ObservableList<MessageDto> MessagesGesamt = FXCollections.observableArrayList();
+    private Set<MessageDto> allMessages = new HashSet<>();
 
 
 
@@ -85,10 +88,10 @@ public class MessagingController implements Initializable {
 
             Stage newWindow = new Stage();
             newWindow.initModality(Modality.APPLICATION_MODAL);
-            Scene WarenkorbScene = new Scene(new AddMessageView().getView());
-            newWindow.setScene(WarenkorbScene);
+            Scene addMessageScene = new Scene(new AddMessageView().getView());
+            newWindow.setScene(addMessageScene);
             newWindow.showAndWait();
-            //updateTable
+            fillMessageTable();
         }};
 
     @Override
@@ -99,34 +102,43 @@ public class MessagingController implements Initializable {
         Messages_Table.getSelectionModel().selectedItemProperty().addListener(this::onMessageChanged);
         New_Message_Button.setOnAction(onAddMessageButtonClicked);
 
+        if(model.getCurrentUser().getRoles().contains("PUBLISHER_ROLE")){
+            New_Message_Button.setVisible(true);
+        } else {
+            New_Message_Button.setVisible(false);
+        }
+
     }
 
     public void fillMessageTable(){
-       // allMessages = easyTicketService.getAllCustomer();
+        MessagesGesamt.clear();
+        Messages_Table.getItems().clear();
+        allMessages = easyTicketService.getAllUnreadMessages(model.getCurrentUser().getUsername());
         MessagesGesamt.addAll(allMessages);
         Messages_Table.setItems(MessagesGesamt);
     }
 
     public void initMessageTable(){
         Genre_Col.setCellValueFactory(p -> {
-            if (p.getValue() != null && p.getValue().getLastname() != null) {
-                return new SimpleStringProperty(p.getValue().getLastname() );
+            if (p.getValue() != null && p.getValue().getTopic() != null) {
+                return new SimpleStringProperty(p.getValue().getTopic() );
             }
             return new SimpleStringProperty("-");
         });
 
         Content_Col.setCellValueFactory(p -> {
-            if (p.getValue() != null && p.getValue().getFirstname() != null) {
-                return new SimpleStringProperty(p.getValue().getFirstname() );
+            if (p.getValue() != null && p.getValue().getContent() != null) {
+                return new SimpleStringProperty(p.getValue().getContent() );
             }
             return new SimpleStringProperty("-");
         });
     }
 
-    private void onMessageChanged(ObservableValue<? extends PersonDto> obs, PersonDto oldSelection, PersonDto newSelection) {
+    private void onMessageChanged(ObservableValue<? extends MessageDto> obs, MessageDto oldSelection, MessageDto newSelection) {
 
         if(newSelection!=null){
-            Sel_Message_Label.setText(newSelection.getLastname()+"\n"+newSelection.getLastname());
+            Sel_Message_Label.setText(newSelection.getTopic() +"\n"+newSelection.getContent());
+            easyTicketService.acknowledgeMessage((String) newSelection.getId());
         }
     }
 }
