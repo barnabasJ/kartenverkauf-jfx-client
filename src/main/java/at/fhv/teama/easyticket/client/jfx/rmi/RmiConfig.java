@@ -21,7 +21,6 @@ public class RmiConfig {
         return new ContextPropagatingRemoteInvocationFactory();
     }
 
-    @Bean
     RmiProxyFactoryBean service(RemoteInvocationFactory factory) {
         System.setSecurityManager(new SecurityManager());
         RmiProxyFactoryBean rmiProxyFactory = new RmiProxyFactoryBean();

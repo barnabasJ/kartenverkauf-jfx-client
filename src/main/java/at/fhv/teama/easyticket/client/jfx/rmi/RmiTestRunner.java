@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 public class RmiTestRunner implements CommandLineRunner {
-    private final EasyTicketService easyTicketService;
+    //private final EasyTicketService easyTicketService;
 
     @Override
     public void run(String... args) {
