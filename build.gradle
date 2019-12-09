@@ -10,7 +10,7 @@ mainClassName = 'at.fhv.teama.easyticket.client.jfx.EasyTicketJfxClientApplicati
 
 group = 'at.fhv.teama.easyticket.client.jfx'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.11'
+sourceCompatibility = '1.8'
 
 configurations {
     developmentOnly
@@ -42,7 +42,7 @@ dependencies {
     implementation 'com.github.barnabasJ:kartenverkauf-shared:0.7.1'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.security:spring-security-remoting'
-    implementation 'org.wildfly:wildfly-ejb-client-bom:12.0.0.Final'
+    implementation 'org.wildfly:wildfly-ejb-client-bom:18.0.1.Final'
     compileOnly 'org.projectlombok:lombok'
     compile "org.springframework.boot:spring-boot-starter-security"
     developmentOnly 'org.springframework.boot:spring-boot-devtools'

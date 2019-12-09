@@ -29,7 +29,7 @@ public class EjbConfigurer {
   }
 
   private String getFullName(Class classType) {
-    String moduleName = "-test/";
+    String moduleName = "EasyTicketServer-0.0.1-SNAPSHOT/";
     String beanName = classType.getSimpleName();
     String viewClassName = classType.getName();
     return moduleName + beanName + "!" + viewClassName;
