@@ -144,8 +144,8 @@ public class MessagingController implements Initializable {
 
         if(newSelection!=null){
             Sel_Message_Label.setText(newSelection.getTopic() +"\n"+newSelection.getContent());
-            easyTicketService.acknowledgeMessage((String) newSelection.getId());
-            /*
+            easyTicketService.acknowledgeMessage((String) newSelection.getId(),model.getCurrentUser().getUsername());
+
             Parent parent = model.getMainScene().getRoot();
             ObservableList<Node> nodes = ((VBox)parent).getChildren();
             Node pane = nodes.get(1);
@@ -154,7 +154,7 @@ public class MessagingController implements Initializable {
             int old = Integer.parseInt(tab.getText().replaceAll("[\\D]", ""));
             int newv = old--;
             tab.setText("Nachrichten ("+newv+")");
-             */
+
         }
     }
 }

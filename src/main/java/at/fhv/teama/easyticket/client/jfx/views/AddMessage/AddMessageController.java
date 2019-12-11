@@ -18,7 +18,6 @@ import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.math3.analysis.interpolation.LinearInterpolator;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 

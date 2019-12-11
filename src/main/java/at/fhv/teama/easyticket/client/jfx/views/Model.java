@@ -34,14 +34,14 @@ public class Model {
 
   public void updateMessagingTabDescription(int num){
 
-      /*
-    Parent parent = mainScene.getRoot();
+/*    Parent parent = mainScene.getRoot();
     ObservableList<Node> nodes = ((VBox)parent).getChildren();
     Node pane = nodes.get(1);
     ObservableList<Node> children= ((AnchorPane)pane).getChildren();
     Tab tab = ((TabPane)children).getTabs().get(3);
     //get number of new messages
     tab.setText("Nachrichten ("+num+")");
+
  */
   }
 
