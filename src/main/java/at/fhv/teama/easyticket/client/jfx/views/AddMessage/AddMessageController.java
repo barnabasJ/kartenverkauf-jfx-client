@@ -1,5 +1,6 @@
 package at.fhv.teama.easyticket.client.jfx.views.AddMessage;
 
+import at.fhv.teama.easyticket.client.jfx.views.Model;
 import at.fhv.teama.easyticket.client.jfx.views.messaging.MessagingController;
 import at.fhv.teama.easyticket.dto.MessageDto;
 import at.fhv.teama.easyticket.dto.PersonDto;
@@ -46,6 +47,7 @@ public class AddMessageController implements Initializable {
 
 
     private final EasyTicketService easyTicketService;
+    private final Model model;
     private List<String> allGenres = new ArrayList<>();
     private ObservableList<String> MessagesGesamt = FXCollections.observableArrayList();
 
@@ -53,20 +55,21 @@ public class AddMessageController implements Initializable {
 
         @Override
         public void handle(final ActionEvent event) {
+            model.setIsPublishing(true);
             if((Genre_ChoiceBox.getSelectionModel().getSelectedItem()!= null )&&(Message_Area.getText()!=null)||(Message_Area.getText()!="")){
                 if(urlCB.isSelected()){
-                    easyTicketService.publishFeed(Message_Area.getText(), Genre_ChoiceBox.getValue());
+                    easyTicketService.publishFeed(Message_Area.getText(), Genre_ChoiceBox.getSelectionModel().getSelectedItem());
                 } else {
                     MessageDto m = new MessageDto();
                     m.setContent(Message_Area.getText());
-                    m.setTopic(Genre_ChoiceBox.getValue());
+                    m.setTopic(Genre_ChoiceBox.getSelectionModel().getSelectedItem());
                     easyTicketService.publishMessage(m);
                 }
                 Node source = (Node) event.getSource();
                 Stage stage = (Stage) source.getScene().getWindow();
                 stage.close();
             }
-
+            model.setIsPublishing(false);
         }};
 
     private final EventHandler<ActionEvent> onGenreChanged = new EventHandler<ActionEvent>() {

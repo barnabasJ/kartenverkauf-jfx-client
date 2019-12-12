@@ -95,12 +95,17 @@ public class MessagingController implements Initializable {
             Scene addMessageScene = new Scene(new AddMessageView().getView());
             newWindow.setScene(addMessageScene);
             newWindow.showAndWait();
+            Tab tab = model.getMainController().getMessaging_Tab();
+            int old = Integer.parseInt(tab.getText().replaceAll("[\\D]", ""));
+            int newv = old++;
+            model.getMainController().updateMessagingTabDescription(newv);
             fillMessageTable();
         }};
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        model.setMessageDtoTableView(Messages_Table);
         initMessageTable();
         fillMessageTable();
         Messages_Table.getSelectionModel().selectedItemProperty().addListener(this::onMessageChanged);
@@ -144,16 +149,12 @@ public class MessagingController implements Initializable {
 
         if(newSelection!=null){
             Sel_Message_Label.setText(newSelection.getTopic() +"\n"+newSelection.getContent());
-            easyTicketService.acknowledgeMessage((String) newSelection.getId(),model.getCurrentUser().getUsername());
+             easyTicketService.acknowledgeMessage(newSelection, model.getCurrentUser().getUsername());
 
-            Parent parent = model.getMainScene().getRoot();
-            ObservableList<Node> nodes = ((VBox)parent).getChildren();
-            Node pane = nodes.get(1);
-            ObservableList<Node> children= ((AnchorPane)pane).getChildren();
-            Tab tab = ((TabPane)children).getTabs().get(3);
+            Tab tab = model.getMainController().getMessaging_Tab();
             int old = Integer.parseInt(tab.getText().replaceAll("[\\D]", ""));
             int newv = old--;
-            tab.setText("Nachrichten ("+newv+")");
+            model.getMainController().updateMessagingTabDescription(newv);
 
         }
     }

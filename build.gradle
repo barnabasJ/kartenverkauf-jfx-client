@@ -39,7 +39,7 @@ sourceSets {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'com.airhacks:afterburner.fx:1.7.0'
-    implementation 'com.github.barnabasJ:kartenverkauf-shared:0.6.3'
+    implementation 'com.github.barnabasJ:kartenverkauf-shared:0.6.4'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.security:spring-security-remoting'
     compileOnly 'org.projectlombok:lombok'

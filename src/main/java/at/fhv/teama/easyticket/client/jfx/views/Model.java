@@ -1,6 +1,8 @@
 package at.fhv.teama.easyticket.client.jfx.views;
 
 import at.fhv.teama.easyticket.client.jfx.views.login.User;
+import at.fhv.teama.easyticket.client.jfx.views.main.MainController;
+import at.fhv.teama.easyticket.dto.MessageDto;
 import at.fhv.teama.easyticket.dto.PersonDto;
 import at.fhv.teama.easyticket.dto.TicketDto;
 import at.fhv.teama.easyticket.dto.VenueDto;
@@ -10,9 +12,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -24,13 +29,12 @@ public class Model {
   private VenueDto selectedVenue;
   private PersonDto selectedPerson;
   private ArrayList<TicketDto> shoppingCartTickets;
+  private TableView<MessageDto> messageDtoTableView;
   private User currentUser;
   private Scene mainScene;
+  private MainController mainController;
+  private boolean isPublishing;
 
-
-  public void setScene(Scene scene){
-    mainScene = scene;
-  }
 
   public void updateMessagingTabDescription(int num){
 
@@ -56,6 +60,15 @@ public class Model {
   public void clearAllFields() {
     selectedPerson = null;
     selectedVenue = null;
+
     shoppingCartTickets = null;
+  }
+
+  public boolean getIsPublishing() {
+    return isPublishing;
+  }
+
+  public void setIsPublishing(boolean isPublishing) {
+    this.isPublishing = isPublishing;
   }
 }
