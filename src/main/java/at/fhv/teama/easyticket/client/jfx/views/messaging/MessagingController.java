@@ -106,7 +106,7 @@ public class MessagingController implements Initializable {
         Messages_Table.getSelectionModel().selectedItemProperty().addListener(this::onMessageChanged);
         New_Message_Button.setOnAction(onAddMessageButtonClicked);
 
-        if(model.getCurrentUser().getRoles().contains("PUBLISHER_ROLE")){
+        if(model.getCurrentUser().getRoles().contains("ROLE_PUBLISHER")){
             New_Message_Button.setVisible(true);
         } else {
             New_Message_Button.setVisible(false);
