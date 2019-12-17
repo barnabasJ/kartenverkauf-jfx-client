@@ -12,10 +12,11 @@
             <Font size="42.0" />
          </font>
       </Text>
-      <TableView fx:id="Messages_Table" layoutX="14.0" layoutY="98.0" prefHeight="280.0" prefWidth="599.0" AnchorPane.bottomAnchor="199.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="98.0">
+      <TableView fx:id="Messages_Table" layoutX="14.0" layoutY="98.0" prefHeight="280.0" prefWidth="600.0" AnchorPane.bottomAnchor="199.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="98.0">
         <columns>
           <TableColumn fx:id="Genre_Col" prefWidth="112.0" text="Thema" />
-          <TableColumn fx:id="Content_Col" prefWidth="486.0" text="Inhalt" />
+          <TableColumn fx:id="Content_Col" prefWidth="366.0" text="Inhalt" />
+            <TableColumn fx:id="timestamp_col" prefWidth="121.0" text="Timestamp" />
         </columns>
       </TableView>
       <Label fx:id="Sel_Message_Label" focusTraversable="false" layoutX="14.0" layoutY="389.0" prefHeight="176.0" prefWidth="386.0" style="-fx-border-color: #009999;" text="Ausgewählte Nachricht" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="14.0" />

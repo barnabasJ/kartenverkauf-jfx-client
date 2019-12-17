@@ -31,10 +31,11 @@ import org.springframework.stereotype.Component;
 
 import java.net.URL;
 import java.sql.BatchUpdateException;
+import java.text.Format;
 import java.text.NumberFormat;
-import java.util.HashSet;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Component
 @Scope("prototype")
@@ -59,6 +60,9 @@ public class MessagingController implements Initializable {
 
     @FXML
     private Label Sel_Message_Label;
+
+    @FXML
+    private TableColumn<MessageDto, String> timestamp_col;
 
     @FXML
     private CheckBox System_CB;
@@ -123,10 +127,13 @@ public class MessagingController implements Initializable {
         MessagesGesamt.clear();
         Messages_Table.getItems().clear();
         allMessages = easyTicketService.getAllUnreadMessages(model.getCurrentUser().getUsername());
+
         if (allMessages != null) {
           MessagesGesamt.addAll(allMessages);
+          MessagesGesamt.sort(Comparator.comparing(MessageDto::getTimestamp));
           Messages_Table.setItems(MessagesGesamt);
         }
+
     }
 
     public void initMessageTable(){
@@ -140,6 +147,14 @@ public class MessagingController implements Initializable {
         Content_Col.setCellValueFactory(p -> {
             if (p.getValue() != null && p.getValue().getContent() != null) {
                 return new SimpleStringProperty(p.getValue().getContent() );
+            }
+            return new SimpleStringProperty("-");
+        });
+        timestamp_col.setCellValueFactory(p -> {
+            if (p.getValue() != null ) {
+                Date date = new Date(p.getValue().getTimestamp());
+                Format format = new SimpleDateFormat("yyyy MM dd HH:mm:ss");
+                return new SimpleStringProperty(format.format(date));
             }
             return new SimpleStringProperty("-");
         });
