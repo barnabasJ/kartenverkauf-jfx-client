@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.1.9.RELEASE'
+    id 'org.springframework.boot' version '2.2.2.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'org.openjfx.javafxplugin' version '0.0.8'
     id 'java'
@@ -37,16 +37,15 @@ sourceSets {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
+    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    compileOnly 'org.projectlombok:lombok'
     implementation 'com.airhacks:afterburner.fx:1.7.0'
     implementation 'com.github.barnabasJ:kartenverkauf-shared:0.7.1'
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.security:spring-security-remoting'
     implementation 'org.wildfly:wildfly-ejb-client-bom:18.0.1.Final'
-    compileOnly 'org.projectlombok:lombok'
-    compile "org.springframework.boot:spring-boot-starter-security"
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
