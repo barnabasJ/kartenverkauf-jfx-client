@@ -6,18 +6,9 @@ import at.fhv.teama.easyticket.dto.MessageDto;
 import at.fhv.teama.easyticket.dto.PersonDto;
 import at.fhv.teama.easyticket.dto.TicketDto;
 import at.fhv.teama.easyticket.dto.VenueDto;
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -28,7 +19,7 @@ import java.util.Collection;
 public class Model {
   private VenueDto selectedVenue;
   private PersonDto selectedPerson;
-  private ArrayList<TicketDto> shoppingCartTickets;
+  private ArrayList<TicketDto> shoppingCartTickets = new ArrayList<>();
   private TableView<MessageDto> messageDtoTableView;
   private User currentUser;
   private Scene mainScene;
