@@ -29,7 +29,6 @@ public class RmiConfigurer {
           havingValue = "rmi",
           matchIfMissing = true)
   RmiProxyFactoryBean service(RemoteInvocationFactory factory) {
-    System.setSecurityManager(new SecurityManager());
     RmiProxyFactoryBean rmiProxyFactory = new RmiProxyFactoryBean();
     rmiProxyFactory.setServiceUrl("rmi://" + hostname + ":" + port + "/EasyTicketService");
     rmiProxyFactory.setServiceInterface(EasyTicketService.class);

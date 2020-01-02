@@ -22,26 +22,27 @@ public class EasyTicketJfxClientApplication extends Application {
 
   private ConfigurableApplicationContext context;
 
+  public static void main(String[] args) {
+    launch(args);
+  }
+
   private void setPolicy() {
     Policy.setPolicy(
-            new Policy() {
-              @Override
-              public PermissionCollection getPermissions(CodeSource codesource) {
-                Permissions p = new Permissions();
-                p.add(new AllPermission());
-                return p;
-              }
-            });
-    if (System.getSecurityManager() == null) {
-      System.setSecurityManager(new SecurityManager());
-    }
+        new Policy() {
+          @Override
+          public PermissionCollection getPermissions(CodeSource codesource) {
+            Permissions p = new Permissions();
+            p.add(new AllPermission());
+            return p;
+          }
+        });
   }
 
   @Override
   public void init() {
     setPolicy();
     SpringApplicationBuilder builder =
-            new SpringApplicationBuilder(EasyTicketJfxClientApplication.class);
+        new SpringApplicationBuilder(EasyTicketJfxClientApplication.class);
     context = builder.run();
     Injector.setInstanceSupplier(context::getBean);
   }
