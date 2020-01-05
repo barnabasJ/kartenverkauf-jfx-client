@@ -26,14 +26,6 @@
 
                   <Tab fx:id="Veranstaltung_Tab" text="Veranstaltungen">
                     <fx:include fx:id="Veranstaltung_Pane" source="../veranstaltung/veranstaltung.fxml" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="160" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0" /></Tab>
-                   <Tab fx:id="Kunden_Tab" text="Kunden">
-                       <content>
-                           <AnchorPane fx:id="kunden_pane" prefHeight="200.0" prefWidth="200.0" />
-                       </content></Tab>
-                   <Tab fx:id="Uebersicht_Tab" text="Übersicht">
-                       <content>
-                           <AnchorPane fx:id="uebersicht_pane" prefHeight="200.0" prefWidth="200.0" />
-                       </content></Tab>
                    <Tab fx:id="Messaging_Tab" text = "Nachrichten">
                        <fx:include fx:id="Messaging_Pane" source="../messaging/Messaging.fxml" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="160" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0" />
                </Tab>

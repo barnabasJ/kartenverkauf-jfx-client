@@ -58,13 +58,21 @@ public class MainController implements Initializable {
 
 
     public void updateMessagingTabDescription(int num){
-        try {
-             Thread.sleep(10);
+        /*try {
+             Thread.sleep(100);
             Messaging_Tab.setText("Nachrichten ("+num+")");
         } catch (InterruptedException e){
             e.printStackTrace();
+        }*/
+        Messaging_Tab.setText("Nachrichten ("+num+")");
+        if(num>0) {
+            Messaging_Tab.setStyle("-fx-background-color: lightblue");
+        } else {
+            Messaging_Tab.setStyle("--fx-skin: \"com.sun.javafx.scene.control.skin.LabelSkin\"" +
+                    " --fx-background-color: transparent" +
+                    " --fx-alignment: CENTER" +
+                    " --fx-text-fill: -fx-text-base-color");
         }
-
     }
 
     public Tab getMessaging_Tab(){
