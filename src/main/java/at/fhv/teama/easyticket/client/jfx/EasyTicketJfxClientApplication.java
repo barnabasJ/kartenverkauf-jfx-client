@@ -1,6 +1,6 @@
 package at.fhv.teama.easyticket.client.jfx;
 
-import at.fhv.teama.easyticket.client.jfx.views.login.LoginView;
+import at.fhv.teama.easyticket.client.jfx.views.Login.LoginView;
 import com.airhacks.afterburner.injection.Injector;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;

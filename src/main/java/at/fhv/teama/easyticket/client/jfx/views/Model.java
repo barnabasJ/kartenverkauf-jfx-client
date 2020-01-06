@@ -1,7 +1,7 @@
 package at.fhv.teama.easyticket.client.jfx.views;
 
-import at.fhv.teama.easyticket.client.jfx.views.login.User;
-import at.fhv.teama.easyticket.client.jfx.views.main.MainController;
+import at.fhv.teama.easyticket.client.jfx.views.Login.User;
+import at.fhv.teama.easyticket.client.jfx.views.Main.MainController;
 import at.fhv.teama.easyticket.dto.MessageDto;
 import at.fhv.teama.easyticket.dto.PersonDto;
 import at.fhv.teama.easyticket.dto.TicketDto;
@@ -17,7 +17,7 @@ import java.util.Collection;
 @Data
 @Component
 public class Model {
-  private VenueDto selectedVenue;
+  private  VenueDto selectedVenue;
   private PersonDto selectedPerson;
   private ArrayList<TicketDto> shoppingCartTickets = new ArrayList<>();
   private TableView<MessageDto> messageDtoTableView;
@@ -27,18 +27,6 @@ public class Model {
   private boolean isPublishing;
 
 
-  public void updateMessagingTabDescription(int num){
-
-/*    Parent parent = mainScene.getRoot();
-    ObservableList<Node> nodes = ((VBox)parent).getChildren();
-    Node pane = nodes.get(1);
-    ObservableList<Node> children= ((AnchorPane)pane).getChildren();
-    Tab tab = ((TabPane)children).getTabs().get(3);
-    //get number of new messages
-    tab.setText("Nachrichten ("+num+")");
-
- */
-  }
 
   public void addShoppingCartTickets(Collection<TicketDto> ticketDtos) {
     if (shoppingCartTickets != null) {
@@ -51,7 +39,6 @@ public class Model {
   public void clearAllFields() {
     selectedPerson = null;
     selectedVenue = null;
-
     shoppingCartTickets = null;
   }
 
