@@ -24,15 +24,16 @@ public class MessagePull {
   @Scheduled(fixedRate = 10000)
   public void poll() {
     log.info("Polling");
-    if (model.getCurrentUser() != null && !model.getIsPublishing()) {
+    if (model.getCurrentUser() != null && !model.getPublishing()) {
       Set<MessageDto> messageDtos =
           easyTicketService.getAllUnreadMessages(model.getCurrentUser().getUsername());
       int num = messageDtos != null ? messageDtos.size() : 0;
-      model.getMainController().updateMessagingTabDescription(num);
+      model.setNumberMessages(num);
       MessagesGesamt.clear();
       model.getMessageDtoTableView().getItems().clear();
       MessagesGesamt.addAll(messageDtos);
       model.getMessageDtoTableView().setItems(MessagesGesamt);
+
     }
   }
 }

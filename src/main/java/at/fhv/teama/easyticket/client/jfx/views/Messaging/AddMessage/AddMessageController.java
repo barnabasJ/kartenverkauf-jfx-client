@@ -53,7 +53,7 @@ public class AddMessageController implements Initializable {
 
         @Override
         public void handle(final ActionEvent event) {
-            model.setIsPublishing(true);
+            model.setPublishing(true);
             if((Genre_ChoiceBox.getSelectionModel().getSelectedItem()!= null )&&(Message_Area.getText()!=null)||(Message_Area.getText()!="")){
                 if(urlCB.isSelected()){
                     easyTicketService.publishFeed(Message_Area.getText(), Genre_ChoiceBox.getSelectionModel().getSelectedItem());
@@ -67,7 +67,7 @@ public class AddMessageController implements Initializable {
                 Stage stage = (Stage) source.getScene().getWindow();
                 stage.close();
             }
-            model.setIsPublishing(false);
+            model.setPublishing(false);
         }};
 
     private final EventHandler<ActionEvent> onGenreChanged = new EventHandler<ActionEvent>() {

@@ -88,10 +88,6 @@ public class MessagingController implements Initializable {
             Scene addMessageScene = new Scene(new AddMessageView().getView());
             newWindow.setScene(addMessageScene);
             newWindow.showAndWait();
-            Tab tab = model.getMainController().getMessaging_Tab();
-            int old = Integer.parseInt(tab.getText().replaceAll("[\\D]", ""));
-            int newv = old++;
-            model.getMainController().updateMessagingTabDescription(newv);
             fillMessageTable();
         }};
 
@@ -154,11 +150,6 @@ public class MessagingController implements Initializable {
         if(newSelection!=null){
             Sel_Message_Label.setText(newSelection.getTopic() +"\n"+newSelection.getContent());
              easyTicketService.acknowledgeMessage(newSelection, model.getCurrentUser().getUsername());
-
-            Tab tab = model.getMainController().getMessaging_Tab();
-            int old = Integer.parseInt(tab.getText().replaceAll("[\\D]", ""));
-            int newv = old--;
-            model.getMainController().updateMessagingTabDescription(newv);
 
         }
     }

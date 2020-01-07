@@ -22,9 +22,8 @@ public class Model {
   private ArrayList<TicketDto> shoppingCartTickets = new ArrayList<>();
   private TableView<MessageDto> messageDtoTableView;
   private User currentUser;
-  private Scene mainScene;
-  private MainController mainController;
-  private boolean isPublishing;
+  private int NumberMessages;
+  private boolean publishing;
 
 
 
@@ -42,11 +41,7 @@ public class Model {
     shoppingCartTickets = null;
   }
 
-  public boolean getIsPublishing() {
-    return isPublishing;
-  }
-
-  public void setIsPublishing(boolean isPublishing) {
-    this.isPublishing = isPublishing;
+  public boolean getPublishing() {
+    return publishing;
   }
 }

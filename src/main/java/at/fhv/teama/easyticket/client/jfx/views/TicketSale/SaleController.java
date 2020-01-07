@@ -216,10 +216,7 @@ public class SaleController implements Initializable {
                 alert.setTitle("Glückwunsch");
                 alert.setHeaderText("Erfolgreiche Buchung");
                 alert.setContentText("Glückwunsch, ihre "+allTickets.size()+" Tickets wurden erfolgreich zum Warenkorb hinzugefügt.");
-                //model.addShoppingCartTickets(allTickets);
-                ArrayList<TicketDto> shoppingCartTickets = model.getShoppingCartTickets();
-                shoppingCartTickets.addAll(allTickets);
-                model.setShoppingCartTickets(shoppingCartTickets);
+                model.addShoppingCartTickets(allTickets);
                 alert.showAndWait();
 
                 Stage newWindow = new Stage();

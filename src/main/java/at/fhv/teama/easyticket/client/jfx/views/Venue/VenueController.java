@@ -104,9 +104,10 @@ public class VenueController implements Initializable {
     //region Table and List Arrays and Sets
     private ObservableList<VenueDto> _veranstaltungenGesamt;
     private Set<VenueDto> _allVenues;
-    //endregion
+
     private ObservableList<String> _GenresGesamt = FXCollections.observableArrayList();
     private Set<String> _allGenres;
+    //endregion
 
     //region Filters and Formatters
     private String _filterBezeichnung;
