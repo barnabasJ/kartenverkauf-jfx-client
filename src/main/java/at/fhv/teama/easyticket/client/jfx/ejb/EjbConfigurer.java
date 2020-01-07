@@ -28,6 +28,11 @@ public class EjbConfigurer {
             "java.naming.factory.initial", "org.jboss.naming.remote.client.InitialContextFactory");
     jndiProps.put("jboss.naming.client.ejb.context", true);
     jndiProps.put("java.naming.provider.url", "http-remoting://" + hostname + ":" + port);
+    jndiProps.put("remote.connectionprovider.create.options.org.xnio.Options.SSL_ENABLED", false);
+    jndiProps.put("remote.connection.default.connect.options.org.xnio.Options.SASL_POLICY_NOANONYMOUS", false);
+    jndiProps.put("remote.connection.default.connect.options.org.xnio.Options.SASL_POLICY_NOPLAINTEXT", "false");
+    jndiProps.put(Context.SECURITY_PRINCIPAL, "client");
+    jndiProps.put(Context.SECURITY_CREDENTIALS, "ws2019");
     return new InitialContext(jndiProps);
   }
 
